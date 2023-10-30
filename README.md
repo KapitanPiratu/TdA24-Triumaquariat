@@ -1,75 +1,21 @@
-# Nuxt 3 Minimal Starter
+# 💻 Tour de App 2023/24 💻
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Tato aplikace je vyvíjena pro soutěž Tour de App
 
-## Setup
+## 👨‍💻 Členové týmu
 
-Make sure to install the dependencies:
+Náš tým je složen ze středoškoláků, kteří absolutně netuší co dělají:
 
-```bash
-# npm
-npm install
+- **Richard Kazda** - kapitán týmu, frontend, komunikace s klienty a všemi ostatními
 
-# pnpm
-pnpm install
+- **Pavel Zachariáš** - frontend, složitá matematika (je to ten chytrý 👨‍🔬)
 
-# yarn
-yarn install
+- **Jan Marek** - backend (a cokoliv dalšího co zbytek týmu nestíhá ⌚️)
 
-# bun
-bun install
-```
+## 🧪 Co aplikace umí
 
-## Development Server
+Aktuálně splňujeme první fázi dle [zadání](https://tourdeapp.cz/zadani)
 
-Start the development server on `http://localhost:3000`:
+## 🤫 PS
 
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Vítáme jakoukoliv zpětnou vazbu, ale mějte prosím na paměti, že jsme stále začátečníci, kteří se tohle všechno učí ve svém volném čase 😄
