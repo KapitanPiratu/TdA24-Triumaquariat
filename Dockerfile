@@ -17,8 +17,8 @@ COPY . .
 # Build the Nuxt app
 RUN npm run build
 
-# Expose port 80
-EXPOSE 80
+# Expose port 3000
+EXPOSE 3000
 
 # Start the Nuxt app
 CMD ["npm", "start"]
