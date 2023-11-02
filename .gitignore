@@ -18,6 +18,11 @@ logs
 .fleet
 .idea
 
+# Prisma and database
+prisma/records.db
+prisma/records.db-journal
+prisma/migrations
+
 # Local env files
 .env
 .env.*
