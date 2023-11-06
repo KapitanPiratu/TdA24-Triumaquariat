@@ -11,6 +11,12 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm install
 
+COPY prisma ./prisma
+
+RUN npm install prisma
+
+RUN npx prisma generate
+
 # Copy the rest of your Nuxt app to the working directory
 COPY . .
 
