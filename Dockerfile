@@ -17,7 +17,7 @@ COPY ./prisma ./prisma
 RUN npm install prisma
 
 # Build the db
-RUN npx prisma migrate dev
+RUN npx prisma db push
 
 # Generate prisma client
 RUN npx prisma generate
