@@ -11,17 +11,19 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm install
 
+COPY ./prisma ./prisma
+
 # Install prisma for building the db
 RUN npm install prisma
 
-# Copy the rest of your Nuxt app to the working directory
-COPY . .
-
 # Build the db
-RUN npx prisma db push
+RUN npx prisma migrate dev
 
 # Generate prisma client
 RUN npx prisma generate
+
+# Copy the rest of your Nuxt app to the working directory
+COPY . .
 
 # Build the Nuxt app
 RUN npm run build
