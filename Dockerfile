@@ -14,6 +14,8 @@ RUN npm install
 # Copy the rest of your Nuxt app to the working directory
 COPY . .
 
+RUN npx prisma migrate deploy
+
 RUN npx prisma generate
 
 # Build the Nuxt app
