@@ -14,10 +14,11 @@ RUN npm install
 # Copy the rest of your Nuxt app to the working directory
 COPY . .
 
+RUN npx prisma generate
+
 # Build the Nuxt app
 RUN npm run build
 
-RUN npx prisma generate
 
 # Expose port 3000
 EXPOSE 3000
