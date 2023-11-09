@@ -17,10 +17,11 @@ COPY . .
 # Build the Nuxt app
 RUN npm run build
 
+RUN npx prisma generate
+
 # Expose port 3000
 EXPOSE 3000
 
-RUN npx prisma generate
 
 # Start the Nuxt app
 CMD ["npm", "start"]
