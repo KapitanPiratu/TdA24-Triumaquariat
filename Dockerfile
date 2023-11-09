@@ -11,12 +11,6 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm install
 
-COPY prisma ./prisma
-
-RUN npm install prisma
-
-RUN npx prisma generate
-
 # Copy the rest of your Nuxt app to the working directory
 COPY . .
 
@@ -25,6 +19,8 @@ RUN npm run build
 
 # Expose port 3000
 EXPOSE 3000
+
+RUN npx prisma generate
 
 # Start the Nuxt app
 CMD ["npm", "start"]
