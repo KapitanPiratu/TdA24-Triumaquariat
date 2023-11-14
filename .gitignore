@@ -19,7 +19,6 @@ logs
 .idea
 
 # Prisma and database
-prisma/records.db
 prisma/records.db-journal
 prisma/migrations
 

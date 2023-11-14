@@ -9,6 +9,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install app dependencies
+
 RUN yarn install
 
 # Copy the rest of your Nuxt app to the working directory
