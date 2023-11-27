@@ -8,5 +8,5 @@ CREATE TABLE IF NOT EXISTS lecturers (
     picture_url TEXT,
     location TEXT,
     claim TEXT,
-    bio TEXT,
+    bio TEXT
 );
