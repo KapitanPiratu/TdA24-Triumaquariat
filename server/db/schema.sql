@@ -10,3 +10,15 @@ CREATE TABLE IF NOT EXISTS lecturers (
     claim TEXT,
     bio TEXT
 );
+
+CREATE TABLE IF NOT EXISTS contact (
+    contact_uuid TEXT PRIMARY KEY,
+    lecturer_uuid TEXT,
+    FOREIGN KEY (lecturer_uuid) REFERENCES lecturers(uuid)
+);
+
+CREATE TABLE IF NOT EXISTS emails (
+    email TEXT,
+    contact_uuid TEXT,
+    FOREIGN KEY (contact_uuid) REFERENCES contact(contact_uuid)
+);

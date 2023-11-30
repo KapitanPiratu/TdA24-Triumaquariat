@@ -1,6 +1,8 @@
 import sqlite3 from "sqlite3";
 const db = new sqlite3.Database('./server/db/records.db');
 
+db.run('PRAGMA foreign_keys = ON;', (err) => console.log(err));
+
 export default defineEventHandler(async (event) => {
     let res;
 
@@ -33,6 +35,22 @@ export default defineEventHandler(async (event) => {
                     "${body['bio']}"
                 )
             `);
+
+            //TODO using the same uuid is not really the best option but good enough for now
+            db.run(`INSERT INTO contact(contact_uuid, lecturer_uuid) VALUES("${body.UUID}", "${body.UUID}")`);
+
+            body.contact.emails.forEach((email: any) => {
+                db.run(`
+                    INSERT INTO emails(
+                        email,
+                        contact_uuid
+                    )
+                    VALUES(
+                        "${email}",
+                        "${body.UUID}"
+                    )
+                `);
+            });
 
             res = body;
         })
