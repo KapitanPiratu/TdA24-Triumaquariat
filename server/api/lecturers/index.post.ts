@@ -20,7 +20,8 @@ export default defineEventHandler(async (event) => {
                     picture_url,
                     location,
                     claim,
-                    bio
+                    bio,
+                    price_per_hour
                 )
                 VALUES(
                     "${body['UUID']}",
@@ -32,7 +33,8 @@ export default defineEventHandler(async (event) => {
                     "${body['picture_url']}",
                     "${body['location']}",
                     "${body['claim']}",
-                    "${body['bio']}"
+                    "${body['bio']}",
+                    ${body['price_per_hour']}
                 )
             `);
 

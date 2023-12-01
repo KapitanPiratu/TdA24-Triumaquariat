@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS lecturers (
     picture_url TEXT,
     location TEXT,
     claim TEXT,
-    bio TEXT
+    bio TEXT,
+    price_per_hour INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS contact (
