@@ -6,13 +6,14 @@ export default defineEventHandler((event) => {
         db.all(`
             SELECT
                 lecturers.*,
-                emails.email AS email
+                emails.email AS emails
             FROM
                 lecturers
             JOIN
                 contact ON lecturers.uuid = contact.lecturer_uuid
             LEFT JOIN
                 emails ON contact.lecturer_uuid = emails.contact_uuid
+            GROUP BY lecturers.UUID
         `, (err, rows) => {
             console.log(`error: ${err}`)
             console.log(rows)
