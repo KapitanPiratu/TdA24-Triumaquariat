@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import sqlite3 from "sqlite3";
 const db = new sqlite3.Database('./server/db/records.db');
 
@@ -8,6 +9,8 @@ export default defineEventHandler(async (event) => {
 
     await readBody(event)
         .then(body => {
+
+            const id = uuidv4();
 
             db.run(`
                 INSERT INTO lecturers(
@@ -24,7 +27,7 @@ export default defineEventHandler(async (event) => {
                     price_per_hour
                 )
                 VALUES(
-                    "${body['UUID']}",
+                    "${id}",
                     "${body['title_before']}",
                     "${body['first_name']}",
                     "${body['middle_name']}",
@@ -39,7 +42,7 @@ export default defineEventHandler(async (event) => {
             `);
 
             //TODO using the same uuid is not really the best option but good enough for now
-            db.run(`INSERT INTO contact(contact_uuid, lecturer_uuid) VALUES("${body.UUID}", "${body.UUID}")`);
+            db.run(`INSERT INTO contact(contact_uuid, lecturer_uuid) VALUES("${id}", "${id}")`);
 
             body.contact.emails.forEach((email: any) => {
                 db.run(`
@@ -49,7 +52,7 @@ export default defineEventHandler(async (event) => {
                     )
                     VALUES(
                         "${email}",
-                        "${body.UUID}"
+                        "${id}"
                     )
                 `);
             });
