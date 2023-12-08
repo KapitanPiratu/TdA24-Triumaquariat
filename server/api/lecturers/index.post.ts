@@ -1,3 +1,4 @@
+
 import { v4 as uuidv4 } from 'uuid';
 import sqlite3 from "sqlite3";
 const db = new sqlite3.Database('./server/db/records.db');
@@ -27,6 +28,7 @@ export default defineEventHandler(async (event) => {
                     price_per_hour
                 )
                 VALUES(
+
                     "${id}",
                     "${body['title_before']}",
                     "${body['first_name']}",
