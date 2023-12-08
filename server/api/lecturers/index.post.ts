@@ -39,7 +39,43 @@ export default defineEventHandler(async (event) => {
                     "${body['bio']}",
                     ${body['price_per_hour']}
                 )
-            `);
+            `, (err) => {
+                if (err) console.log('lecturer err: ' + err);
+
+                body.tags.forEach((tag: any) => {
+                    const taguuid = uuidv4();
+                    console.log(taguuid)
+                    db.run(`
+                        INSERT INTO tags(
+                            uuid,
+                            name
+                        )
+                        VALUES(
+                            "${taguuid}",
+                            "${tag.name}"
+                        )
+                    `, (err) => {
+                        if (err) console.log('tags foreach end ' + err);
+
+                        db.all('SELECT * FROM tags', () => {
+                            db.run(`
+                                INSERT INTO lecturers_tags(
+                                    tag_uuid,
+                                    lecturer_uuid
+                                )
+                                VALUES(
+                                    "${taguuid}",
+                                    "${id}"
+                                )
+                            `, (err) => {
+                                console.log(err);
+                            });
+                        })
+                    });
+
+                });
+
+            });
 
             //TODO using the same uuid is not really the best option but good enough for now
             db.run(`INSERT INTO contact(contact_uuid, lecturer_uuid) VALUES("${id}", "${id}")`);
