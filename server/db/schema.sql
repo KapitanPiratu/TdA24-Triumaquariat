@@ -24,6 +24,12 @@ CREATE TABLE IF NOT EXISTS emails (
     FOREIGN KEY (contact_uuid) REFERENCES contact(contact_uuid)
 );
 
+CREATE TABLE IF NOT EXISTS telephone_numbers (
+    number TEXT,
+    contact_uuid TEXT,
+    FOREIGN KEY (contact_uuid) REFERENCES contact(contact_uuid)
+);
+
 CREATE TABLE IF NOT EXISTS tags (
     uuid TEXT PRIMARY KEY,
     name TEXT UNIQUE

@@ -61,6 +61,19 @@ export default defineEventHandler(async (event) => {
                         `);
                     });
 
+                    body.contact.telephone_numbers.forEach((number: any) => {
+                        db.run(`
+                            INSERT INTO telephone_numbers(
+                                number,
+                                contact_uuid
+                            )
+                            VALUES(
+                                "${number}",
+                                "${id}"
+                            )
+                        `);
+                    });
+
                     body.tags.forEach((tag: any) => {
                         const taguuid = uuidv4();
                         tag['uuid'] = taguuid;
