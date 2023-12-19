@@ -9,7 +9,7 @@ export default defineEventHandler((event) => {
                 const uuid = event.context.params?.uuid;
 
                 db.run(`
-                    UPDATE lectureres
+                    UPDATE lecturers
                     SET
                         title_before = "${body.title_before}",
                         first_name = "${body.first_name}",
