@@ -22,7 +22,29 @@ export default defineEventHandler((event) => {
                         bio = "${body.bio}",
                         price_per_hour = "${body.price_per_hour}"
                     WHERE uuid = "${uuid}"
-                `)
+                `, (err => {
+                    if (err) {
+                        setResponseStatus(event, 500);
+                        resolve({ code: 500, message: err });
+                    } else {
+                        db.run(`SELECT * FROM lecturers_tags WHERE lecturer_uuid = "${body.uuid}"`, (err: any, rows: any) => {
+                            if (err) {
+                                setResponseStatus(event, 500);
+                                resolve({ code: 500, message: err });
+                            } else {
+                                if (rows) rows.forEach((el: any) => {
+                                    console.log(el)
+                                    //TODO cases:
+                                    //same
+                                    //new, already in db
+                                    //brand new
+                                    //remove
+                                })
+                                resolve(body)
+                            }
+                        })
+                    }
+                }))
             })
     })
     return res;
