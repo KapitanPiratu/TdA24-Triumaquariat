@@ -41,8 +41,8 @@ export default defineEventHandler((event) => {
                                 SELECT tags.*
                                 FROM tags
                                 JOIN lecturers_tags ON tags.uuid = lecturers_tags.tag_uuid
-                                WHERE lecturers_tags.lecturer_uuid = "${body.uuid}"
-                                `, (err: any, rows: any) => {
+                                WHERE lecturers_tags.lecturer_uuid = "${uuid}"
+                                `, (err: any, oldTags: any) => {
                                     if (err) {
                                         setResponseStatus(event, 500);
                                         resolve({ code: 500, message: err });
@@ -50,7 +50,7 @@ export default defineEventHandler((event) => {
                                         // disabled for now (maybe forever)
                                         // if (body.tags.length == 0) db.run(`DELETE FROM lecturers_tags WHERE lecturer_uuid = "${body.uuid}"`);
 
-                                        if (rows) rows.forEach((el: any) => {
+                                        if (oldTags) oldTags.forEach((el: any) => {
                                             //TODO cases:
                                             //same
                                             //new, already in db
