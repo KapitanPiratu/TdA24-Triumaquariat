@@ -37,20 +37,29 @@ export default defineEventHandler((event) => {
                                 setResponseStatus(event, 500);
                                 resolve({ code: 500, message: err });
                             } else {
-                                db.run(`SELECT * FROM lecturers_tags WHERE lecturer_uuid = "${body.uuid}"`, (err: any, rows: any) => {
+                                db.all(`
+                                SELECT tags.*
+                                FROM tags
+                                JOIN lecturers_tags ON tags.uuid = lecturers_tags.tag_uuid
+                                WHERE lecturers_tags.lecturer_uuid = "${body.uuid}"
+                                `, (err: any, rows: any) => {
                                     if (err) {
                                         setResponseStatus(event, 500);
                                         resolve({ code: 500, message: err });
                                     } else {
-                                        if (body.tags.length == 0) db.run(`DELETE FROM lecturers_tags WHERE lecturer_uuid = "${body.uuid}"`);
+                                        // disabled for now (maybe forever)
+                                        // if (body.tags.length == 0) db.run(`DELETE FROM lecturers_tags WHERE lecturer_uuid = "${body.uuid}"`);
 
                                         if (rows) rows.forEach((el: any) => {
-                                            console.log(el)
                                             //TODO cases:
                                             //same
                                             //new, already in db
                                             //brand new
                                             //remove
+                                            if (body.tags && !body.tags.find((newTag: any) => newTag.name == el.name)) {
+                                                console.log({ name: el.name })
+                                                db.run(`DELETE FROM lecturers_tags WHERE tag_uuid = "${el.uuid}"`);
+                                            }
                                         })
                                         resolve(body)
                                     }
