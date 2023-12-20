@@ -42,6 +42,8 @@ export default defineEventHandler((event) => {
                                         setResponseStatus(event, 500);
                                         resolve({ code: 500, message: err });
                                     } else {
+                                        if (body.tags.length == 0) db.run(`DELETE FROM lecturers_tags WHERE lecturer_uuid = "${body.uuid}"`);
+
                                         if (rows) rows.forEach((el: any) => {
                                             console.log(el)
                                             //TODO cases:
