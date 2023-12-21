@@ -35,6 +35,10 @@ export default defineEventHandler((event) => {
                 }
                 delete el.emails;
                 delete el.telephone_numbers;
+                //small formatting
+                Object.keys(el).forEach(key => {
+                    if (el[key] == 'undefined') el[key] = null;
+                })
             })
             resolve(rows);
         })
