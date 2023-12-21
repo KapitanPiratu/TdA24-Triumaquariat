@@ -48,20 +48,13 @@ export default defineEventHandler((event) => {
                                         setResponseStatus(event, 500);
                                         resolve({ code: 500, message: err });
                                     } else {
-                                        // disabled for now (maybe forever)
-                                        // if (body.tags.length == 0) db.run(`DELETE FROM lecturers_tags WHERE lecturer_uuid = "${body.uuid}"`);
-
+                                        //removing tags
                                         if (oldTags) oldTags.forEach((el: any) => {
-                                            //TODO cases:
-                                            //same
-                                            //new, already in db
-                                            //brand new
-                                            //remove
                                             if (body.tags && !body.tags.find((newTag: any) => newTag.name == el.name)) {
                                                 db.run(`DELETE FROM lecturers_tags WHERE tag_uuid = "${el.uuid}"`);
                                             }
                                         })
-
+                                        //adding tags
                                         if (body.tags) body.tags.forEach((newTag: any) => {
                                             if (!oldTags.find((oldTag: any) => oldTag.name == newTag.name)) {
 
