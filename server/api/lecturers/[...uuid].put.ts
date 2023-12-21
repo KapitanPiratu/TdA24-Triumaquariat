@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import sqlite3 from 'sqlite3';
 const db = new sqlite3.Database('./server/db/records.db');
 
@@ -57,10 +58,31 @@ export default defineEventHandler((event) => {
                                             //brand new
                                             //remove
                                             if (body.tags && !body.tags.find((newTag: any) => newTag.name == el.name)) {
-                                                console.log({ name: el.name })
                                                 db.run(`DELETE FROM lecturers_tags WHERE tag_uuid = "${el.uuid}"`);
                                             }
                                         })
+
+                                        if (body.tags) body.tags.forEach((newTag: any) => {
+                                            if (!oldTags.find((oldTag: any) => oldTag.name == newTag.name)) {
+
+                                                db.get(`SELECT * FROM tags WHERE name = "${newTag.name}"`, (err, row: any) => {
+                                                    if (err) {
+                                                        setResponseStatus(event, 500);
+                                                        resolve({ code: 500, message: err });
+                                                    }
+
+                                                    if (row == undefined) {
+                                                        newTag.uuid = uuidv4();
+                                                        console.log(body.tags)
+                                                        db.run(`INSERT INTO tags(uuid, name) VALUES("${newTag.uuid}","${newTag.name}")`)
+                                                    } else {
+                                                        newTag.uuid = row.uuid;
+                                                    }
+                                                    db.run(`INSERT INTO lecturers_tags(tag_uuid, lecturer_uuid) VALUES("${newTag.uuid}", "${uuid}")`);
+                                                })
+                                            }
+                                        });
+
                                         resolve(body)
                                     }
                                 })
