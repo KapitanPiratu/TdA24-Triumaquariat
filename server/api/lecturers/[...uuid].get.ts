@@ -46,6 +46,7 @@ export default defineEventHandler((event) => {
             delete row.telephone_numbers;
             //small formatting
             Object.keys(row).forEach(key => {
+                if (row[key] == 'null') row[key] = null;
                 if (row[key] == 'undefined') row[key] = null;
             })
             resolve(row);
