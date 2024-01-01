@@ -37,7 +37,8 @@ export default defineEventHandler((event) => {
                 delete el.telephone_numbers;
                 //small formatting
                 Object.keys(el).forEach(key => {
-                    if (el[key] == 'undefined') delete el[key];
+                    if (el[key] == 'null') el[key] = null;
+                    if (el[key] == 'undefined') el[key] = null;
                 })
             })
             resolve(rows);
