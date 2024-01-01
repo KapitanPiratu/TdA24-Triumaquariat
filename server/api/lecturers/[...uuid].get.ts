@@ -49,6 +49,10 @@ export default defineEventHandler((event) => {
                 if (row[key] == 'null') row[key] = null;
                 if (row[key] == 'undefined') row[key] = null;
             })
+
+            //get rid of {uuid: null, name: null} in tags
+            if (row.tags[0].name == null && row.tags.length == 1) row.tags = [];
+
             resolve(row);
         })
     })
