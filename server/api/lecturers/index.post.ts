@@ -79,6 +79,11 @@ export default defineEventHandler(async (event) => {
                         `);
                     });
 
+                    console.log(body.tags);
+                    if (body.tags && !body.tags.length) {
+                        resolve(body);
+                    }
+
                     //TODO Cleanup!!!
                     body.tags.forEach((tag: any) => {
                         db.get(`SELECT * FROM tags WHERE name = "${tag.name}"`, (err, row: any) => {
