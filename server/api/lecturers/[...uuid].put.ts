@@ -55,28 +55,37 @@ export default defineEventHandler((event) => {
                                             }
                                         })
                                         //adding tags
-                                        if (body.tags) body.tags.forEach((newTag: any) => {
+                                        if (body.tags) body.tags.forEach(async (newTag: any) => {
                                             if (!oldTags.find((oldTag: any) => oldTag.name == newTag.name)) {
-
-                                                db.get(`SELECT * FROM tags WHERE name = "${newTag.name}"`, (err, row: any) => {
-                                                    if (err) {
-                                                        setResponseStatus(event, 500);
-                                                        resolve({ code: 500, message: err });
-                                                    }
-
-                                                    if (row == undefined) {
-                                                        newTag.uuid = uuidv4();
-                                                        console.log(body.tags)
-                                                        db.run(`INSERT INTO tags(uuid, name) VALUES("${newTag.uuid}","${newTag.name}")`)
-                                                    } else {
-                                                        newTag.uuid = row.uuid;
-                                                    }
-                                                    db.run(`INSERT INTO lecturers_tags(tag_uuid, lecturer_uuid) VALUES("${newTag.uuid}", "${uuid}")`);
+                                                //get old tag if exists
+                                                const oldTag: any = await new Promise((resolve, reject) => {
+                                                    db.get(`SELECT * FROM tags WHERE name = "${newTag.name}"`, (err, row) => {
+                                                        resolve(row);
+                                                    })
                                                 })
-                                            }
-                                        });
 
-                                        resolve(body)
+                                                //if old tag does not exist, create new one
+                                                if (oldTag == undefined) {
+                                                    newTag.uuid = uuidv4();
+                                                    await new Promise<void>((resolve, reject) => {
+                                                        db.run(`INSERT INTO tags(uuid, name) VALUES("${newTag.uuid}", "${newTag.name}")`, (err) => {
+                                                            resolve();
+                                                        })
+                                                    })
+                                                } else {
+                                                    newTag.uuid = oldTag.uuid;
+                                                }
+
+                                                //insert into junction table
+                                                await new Promise<void>((resolve, reject) => {
+                                                    db.run(`INSERT INTO lecturers_tags(tag_uuid, lecturer_uuid) VALUES("${newTag.uuid}", "${uuid}")`, (err) => {
+                                                        resolve();
+                                                    })
+                                                })
+
+                                                resolve(body)
+                                            }
+                                        })
                                     }
                                 })
                             }
