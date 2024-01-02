@@ -14,6 +14,11 @@ export default defineEventHandler(async (event) => {
                 const id = uuidv4();
                 body['uuid'] = id;
 
+                if (!body['first_name'] || !body['last_name']) {
+                    setResponseStatus(event, 400);
+                    resolve({ code: 400, message: 'Bad request' });
+                }
+
                 db.run(`
                     INSERT INTO lecturers(
                         uuid,
