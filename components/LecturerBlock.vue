@@ -1,6 +1,6 @@
 <script setup>
 
-const color = defineProps()
+const { color } = defineProps(['color']);
 
 onMounted(() => {
     console.log(color)
@@ -9,39 +9,34 @@ onMounted(() => {
 
 <template>
     <div class="block" :class="color">
-        <p>data bloku</p>
+        <p>{{ lecturers }}</p>
     </div>
 </template>
 
 <style scoped>
+.blocks-container {
+    white-space: nowrap;
+}
+
 .block {
-    padding: 10rem;
-    margin: 1rem;
-    width: 10rem;
+    display: inline-block;
+    height: 40vw;
+    width: 23vw;
+    margin-top: 4vw;
 }
 
 .sunglow {
     background-color: var(--sunglow);
+    margin-left: 7.5vw;
 }
 
-.firstblock {
+.sky-blue {
     background-color: var(--sky-blue);
-    padding: 528px;
-    color: var(--jet);
-    width: 295px;
+    margin-left: 7.5vw;
 }
 
-.secondblock {
-    background-color: var(--sunglow);
-    padding: 528px;
-    color: var(--jet);
-    width: 295px;
-}
-
-.thirdblock {
-    background-color: var(--white);
-    padding: 528px;
-    color: var(--jet);
-    width: 295px;
+.prussian-blue {
+    background-color: var(--prussian-blue);
+    margin-left: 7.5vw;
 }
 </style>

@@ -11,7 +11,7 @@ const blocks = [
     },
     {
         index: 2,
-        color: 'white'
+        color: 'prussian-blue'
     }
 ]
 
@@ -31,11 +31,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <LecturerBlock v-for="(block, index) in blocks" :color="block.color" />
+    <div class="blocks-container">
+        <LecturerBlock v-for="(block, index) in blocks" :color="block.color" />
+    </div>
 </template>
-
-<style scoped>
-body {
-    background-color: var(--jet);
-}
-</style>
