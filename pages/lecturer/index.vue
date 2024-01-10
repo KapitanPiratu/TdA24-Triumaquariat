@@ -3,15 +3,24 @@
 const blocks = [
     {
         index: 0,
-        color: 'sky-blue'
+        color: 'sky-blue',
+        display: [
+            'names'
+        ]
     },
     {
         index: 1,
-        color: 'sunglow'
+        color: 'sunglow',
+        display: [
+            'personaldata'
+        ]
     },
     {
         index: 2,
-        color: 'prussian-blue'
+        color: 'prussian-blue',
+        display: [
+            'contact'
+        ]
     }
 ]
 
@@ -22,16 +31,21 @@ async function getLecturers() {
         method: 'get',
         onResponse(response) {
             lecturers.value = response.response._data[0] || {};
+            console.log(lecturers.value);
         }
     });
 };
 onMounted(() => {
     getLecturers();
 });
+computed: {
+
+};
 </script>
 
 <template>
     <div class="blocks-container">
-        <LecturerBlock v-for="(block, index) in blocks" :color="block.color" />
+        <LecturerBlock v-for="(block, index) in blocks" :color="block.color" :display="block.display"
+            :lecturer="lecturers" />
     </div>
 </template>
