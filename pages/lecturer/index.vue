@@ -37,6 +37,7 @@ onMounted(() => {
     background-color: var(--sky-blue);
     height: 40vw;
     width: 25vw;
+    border-radius: 6.5px;
 }
 
 .lecturer-claim {
