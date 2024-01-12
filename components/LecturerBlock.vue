@@ -3,27 +3,28 @@
 const props = defineProps(['color', 'display', 'lecturer']);
 
 onMounted(() => {
-    // console.log(props.lecturer)
 })
-// let new_telephone_numbers = props.lecturer.telephone_numbers;
 </script>
 
 <template>
     <div class="block" :class="props.color">
         <div v-if="props.display.includes('names')">
-            <h1>{{ props.lecturer.title_before }} {{ props.lecturer.first_name }} {{ props.lecturer.middle_name }} {{
-                props.lecturer.last_name }} {{ props.lecturer.title_after }}</h1>
-            <img :src="props.lecturer.picture_url" alt="tda image" />
+            <h1 style="text-align: center;">{{ props.lecturer.title_before }} {{ props.lecturer.first_name }} {{
+                props.lecturer.middle_name }} {{
+        props.lecturer.last_name }} {{ props.lecturer.title_after }}</h1>
+            <div style="text-align: center;">
+                <img class="image_paragraph" :src="props.lecturer.picture_url" alt="tda image" />
+            </div>
         </div>
         <div v-if="props.display.includes('personaldata')">
-            <div v-html="props.lecturer.bio"></div>
+            <div style="text-align: left;" v-html="props.lecturer.bio"></div>
         </div>
         <div v-if="props.display.includes('contact')">
             <div>
-                <p>{{ props.lecturer.location }}</p>
-                <p>{{ props.lecturer.price_per_hour }} Kč/h</p>
-                <p v-for="number in props.lecturer.telephone_numbers">{{ number }}</p>
-                <p v-for="email in props.lecturer.emails">{{ email }}</p>
+                <p class="location_paragraph">{{ props.lecturer.location }}</p>
+                <p class="price_per_hour_paragraph">{{ props.lecturer.price_per_hour }} Kč/h</p>
+                <p class="telephone_numbers_paragraph" v-for="number in props.lecturer.telephone_numbers">{{ number }}</p>
+                <p class="email_paragraph" v-for="email in props.lecturer.emails">{{ email }}</p>
             </div>
         </div>
         {{ lecturers }}
@@ -59,5 +60,31 @@ onMounted(() => {
     background-color: var(--prussian-blue);
     margin-left: 67.5vw;
     position: absolute;
+}
+
+.telephone_numbers_paragraph {
+    text-align: center;
+    position: relative;
+    margin-top: 27vh;
+}
+
+.email_paragraph {
+    text-align: center;
+    margin-bottom: 2vh;
+}
+
+.price_per_hour_paragraph {
+    text-align: center;
+    position: relative;
+    margin-top: 15vw;
+}
+
+.location_paragraph {
+    text-align: center;
+    position: relative;
+}
+
+.image_paragraph {
+    text-align: center;
 }
 </style>
