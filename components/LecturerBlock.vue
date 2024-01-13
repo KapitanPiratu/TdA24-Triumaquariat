@@ -17,7 +17,7 @@ onMounted(() => {
             </div>
         </div>
         <div v-if="props.display.includes('personaldata')">
-            <div style="text-align: left;" v-html="props.lecturer.bio"></div>
+            <div class="bio" style="text-align: left;" v-html="props.lecturer.bio"></div>
         </div>
         <div v-if="props.display.includes('contact')">
             <div>
@@ -42,6 +42,7 @@ onMounted(() => {
     height: 40vw;
     width: 23vw;
     margin-top: 4vw;
+    border-radius: 6.5px;
 }
 
 .sunglow {
@@ -86,5 +87,11 @@ onMounted(() => {
 
 .image_paragraph {
     text-align: center;
+    border-radius: 6.5px;
+    box-shadow: 5px 5px 5px var(--jet);
+}
+
+.bio {
+    padding: 1rem;
 }
 </style>
