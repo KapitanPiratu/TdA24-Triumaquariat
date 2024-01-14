@@ -1,46 +1,51 @@
 <script setup>
+
+const blocks = [
+    {
+        index: 0,
+        color: 'sky-blue',
+        display: [
+            'names'
+        ]
+    },
+    {
+        index: 1,
+        color: 'sunglow',
+        display: [
+            'personaldata'
+        ]
+    },
+    {
+        index: 2,
+        color: 'prussian-blue',
+        display: [
+            'contact'
+        ]
+    }
+]
+
 const lecturers = ref([]);
 
 async function getLecturers() {
     await $fetch('/api/lecturers', {
         method: 'get',
         onResponse(response) {
-            lecturers.value = response.response._data || [];
+            lecturers.value = response.response._data[0] || {};
+            console.log(lecturers.value);
         }
     });
 };
-
 onMounted(() => {
     getLecturers();
-})
+});
+computed: {
+
+};
 </script>
 
 <template>
-    <div class="lecturer-card" v-for="lecturer in lecturers">
-        <div>
-            <img :src="lecturer.picture_url" alt="tda image">
-            <h1>{{ lecturer.title_before }}</h1>
-            <h1>{{ lecturer.first_name }}</h1>
-            <h1>{{ lecturer.middle_name }}</h1>
-            <h1>{{ lecturer.last_name }}</h1>
-            <h1>{{ lecturer.title_after }}</h1>
-        </div>
-        <h1 class="lecturer-claim">{{ lecturer.claim }}</h1>
-        <h1>{{ lecturer.location }}</h1>
-        <br>
+    <div class="blocks-container">
+        <LecturerBlock v-for="(block, index) in blocks" :color="block.color" :display="block.display"
+            :lecturer="lecturers" />
     </div>
 </template>
-
-<style scoped>
-.lecturer-card {
-    padding: 1rem;
-    background-color: var(--sky-blue);
-    height: 37vw;
-    width: 25vw;
-}
-
-.lecturer-claim {
-    padding: auto;
-    font-size: larger;
-}
-</style>
