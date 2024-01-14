@@ -17,22 +17,26 @@ onMounted(() => {
 
 <template>
     <div class="cards-container">
-        <div class="lecturer-card" v-for="lecturer in lecturers">
-            <img v-if="lecturer.picture_url" :src="lecturer.picture_url" alt="tda image" class="lecturer-picture">
-            <img v-else src="~/assets/svg/tda_studium.svg" alt="tda image" class="lecturer-picture default-picture">
-            <div class="lecturer-basic">
-                <h1>{{ lecturer.title_before }}
-                    {{ lecturer.first_name }}
-                    {{ lecturer.middle_name }}
-                    {{ lecturer.last_name }}
-                    {{ lecturer.title_after }}</h1>
-            </div>
-            <div class="location-price-wrapper">
-                <h2 class="lecturer-location">{{ lecturer.location }}</h2>
-                <h2 class="lecturer-price">{{ lecturer.price_per_hour }}</h2>
-            </div>
-            <p class="lecturer-claim">{{ lecturer.claim }}</p>
-            <br>
+        <div class="lecturer-card-wrapper" v-for="lecturer in lecturers">
+            <nuxt-link class="link" :to="'/lecturer/' + lecturer.uuid">
+                <div class="lecturer-card">
+                    <img v-if="lecturer.picture_url" :src="lecturer.picture_url" alt="tda image" class="lecturer-picture">
+                    <img v-else src="~/assets/svg/tda_studium.svg" alt="tda image" class="lecturer-picture default-picture">
+                    <div class="lecturer-basic">
+                        <h1>{{ lecturer.title_before }}
+                            {{ lecturer.first_name }}
+                            {{ lecturer.middle_name }}
+                            {{ lecturer.last_name }}
+                            {{ lecturer.title_after }}</h1>
+                    </div>
+                    <div class="location-price-wrapper">
+                        <h2 class="lecturer-location">{{ lecturer.location }}</h2>
+                        <h2 class="lecturer-price">{{ lecturer.price_per_hour }}</h2>
+                    </div>
+                    <p class="lecturer-claim">{{ lecturer.claim }}</p>
+                    <br>
+                </div>
+            </nuxt-link>
         </div>
     </div>
 </template>
@@ -43,10 +47,17 @@ onMounted(() => {
     background-color: var(--sky-blue);
     height: 60vh;
     width: 20vw;
-    margin: 2vw;
     border-radius: 6.5px;
     text-align: center;
     position: relative;
+}
+
+.lecturer-card-wrapper {
+    margin: 2vw;
+}
+
+.link {
+    text-decoration: none;
 }
 
 .cards-container {
