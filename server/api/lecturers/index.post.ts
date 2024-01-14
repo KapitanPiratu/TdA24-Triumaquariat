@@ -14,6 +14,11 @@ export default defineEventHandler(async (event) => {
                 const id = uuidv4();
                 body['uuid'] = id;
 
+                if (!body['first_name'] || !body['last_name']) {
+                    setResponseStatus(event, 400);
+                    resolve({ code: 400, message: 'Bad request' });
+                }
+
                 db.run(`
                     INSERT INTO lecturers(
                         uuid,
@@ -74,38 +79,72 @@ export default defineEventHandler(async (event) => {
                         `);
                     });
 
-                    body.tags.forEach((tag: any) => {
-                        const taguuid = uuidv4();
-                        tag['uuid'] = taguuid;
-                        db.run(`
-                            INSERT INTO tags(
-                                uuid,
-                                name
-                            )
-                            VALUES(
-                                "${taguuid}",
-                                "${tag.name}"
-                            )
-                        `, (err) => {
-                            if (err) console.log('tags foreach end ' + err);
+                    console.log(body.tags);
+                    if (body.tags && !body.tags.length) {
+                        resolve(body);
+                    }
 
-                            db.all('SELECT * FROM tags', () => {
+                    //TODO Cleanup!!!
+                    body.tags.forEach((tag: any) => {
+                        db.get(`SELECT * FROM tags WHERE name = "${tag.name}"`, (err, row: any) => {
+                            if (err) {
+                                setResponseStatus(event, 500);
+                                resolve({ code: 500, message: err });
+                            }
+                            if (row) {
+                                //already exists
+                                db.all('SELECT * FROM tags', () => {
+                                    db.run(`
+                                        INSERT INTO lecturers_tags(
+                                            tag_uuid,
+                                            lecturer_uuid
+                                        )
+                                        VALUES(
+                                            "${row.uuid}",
+                                            "${id}"
+                                        )
+                                    `, (err) => {
+                                        console.log(err);
+                                        console.log('res ' + res)
+                                        tag['uuid'] = row.uuid;
+                                        resolve(body);
+                                    });
+                                })
+                            } else {
+                                //completely new tag
+                                const taguuid = uuidv4();
+                                tag['uuid'] = taguuid;
                                 db.run(`
-                                    INSERT INTO lecturers_tags(
-                                        tag_uuid,
-                                        lecturer_uuid
+                                    INSERT INTO tags(
+                                        uuid,
+                                        name
                                     )
                                     VALUES(
                                         "${taguuid}",
-                                        "${id}"
+                                        "${tag.name}"
                                     )
                                 `, (err) => {
-                                    console.log(err);
-                                    console.log('res ' + res)
-                                    resolve(body);
+                                    if (err) console.log('tags foreach end ' + err);
+
+                                    db.all('SELECT * FROM tags', () => {
+                                        db.run(`
+                                            INSERT INTO lecturers_tags(
+                                                tag_uuid,
+                                                lecturer_uuid
+                                            )
+                                            VALUES(
+                                                "${taguuid}",
+                                                "${id}"
+                                            )
+                                        `, (err) => {
+                                            console.log(err);
+                                            console.log('res ' + res)
+                                            resolve(body);
+                                        });
+                                    })
                                 });
-                            })
-                        });
+                            }
+                        })
                     });
                 });
             })
