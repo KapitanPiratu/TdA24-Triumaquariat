@@ -16,18 +16,20 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="lecturer-card" v-for="lecturer in lecturers">
-        <img :src="lecturer.picture_url" alt="tda image" class="lecturer-picture">
-        <div class="lecturer-basic">
-            <h1>{{ lecturer.title_before }}
-                {{ lecturer.first_name }}
-                {{ lecturer.middle_name }}
-                {{ lecturer.last_name }}
-                {{ lecturer.title_after }}</h1>
+    <div class="cards-container">
+        <div class="lecturer-card" v-for="lecturer in lecturers">
+            <img :src="lecturer.picture_url" alt="tda image" class="lecturer-picture">
+            <div class="lecturer-basic">
+                <h1>{{ lecturer.title_before }}
+                    {{ lecturer.first_name }}
+                    {{ lecturer.middle_name }}
+                    {{ lecturer.last_name }}
+                    {{ lecturer.title_after }}</h1>
+            </div>
+            <h1 class="lecturer-claim">{{ lecturer.claim }}</h1>
+            <h1 class="lecturer-location">{{ lecturer.location }}</h1>
+            <br>
         </div>
-        <h1 class="lecturer-claim">{{ lecturer.claim }}</h1>
-        <h1 class="lecturer-location">{{ lecturer.location }}</h1>
-        <br>
     </div>
 </template>
 
@@ -35,9 +37,19 @@ onMounted(() => {
 .lecturer-card {
     padding: 1rem;
     background-color: var(--sky-blue);
-    height: 40vw;
-    width: 25vw;
+    height: 60vh;
+    width: 20vw;
+    margin: 2vw;
     border-radius: 6.5px;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 13vh;
+    width: 100vw;
+    max-width: 100%;
 }
 
 .lecturer-claim {
