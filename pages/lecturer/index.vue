@@ -49,3 +49,15 @@ computed: {
             :lecturer="lecturers" />
     </div>
 </template>
+
+<style scoped>
+.blocks-container {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 13vh;
+    width: 100vw;
+    max-width: 100%;
+    height: 87vh;
+}
+</style>
