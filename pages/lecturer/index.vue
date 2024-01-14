@@ -18,7 +18,8 @@ onMounted(() => {
 <template>
     <div class="cards-container">
         <div class="lecturer-card" v-for="lecturer in lecturers">
-            <img :src="lecturer.picture_url" alt="tda image" class="lecturer-picture">
+            <img v-if="lecturer.picture_url" :src="lecturer.picture_url" alt="tda image" class="lecturer-picture">
+            <img v-else src="~/assets/svg/tda_studium.svg" alt="tda image" class="lecturer-picture default-picture">
             <div class="lecturer-basic">
                 <h1>{{ lecturer.title_before }}
                     {{ lecturer.first_name }}
@@ -26,8 +27,11 @@ onMounted(() => {
                     {{ lecturer.last_name }}
                     {{ lecturer.title_after }}</h1>
             </div>
-            <h1 class="lecturer-claim">{{ lecturer.claim }}</h1>
-            <h1 class="lecturer-location">{{ lecturer.location }}</h1>
+            <div class="location-price-wrapper">
+                <h2 class="lecturer-location">{{ lecturer.location }}</h2>
+                <h2 class="lecturer-price">{{ lecturer.price_per_hour }}</h2>
+            </div>
+            <p class="lecturer-claim">{{ lecturer.claim }}</p>
             <br>
         </div>
     </div>
@@ -41,6 +45,8 @@ onMounted(() => {
     width: 20vw;
     margin: 2vw;
     border-radius: 6.5px;
+    text-align: center;
+    position: relative;
 }
 
 .cards-container {
@@ -53,23 +59,40 @@ onMounted(() => {
 }
 
 .lecturer-claim {
-    padding: 2vw;
     font-size: larger;
 }
 
-.lecturer-location {
-    padding-left: 10vw;
-    font-size: larger;
+.lecturer-location,
+.lecturer-price {
+    margin: 2.5vw;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.location-price-wrapper {
+    display: flex;
+    justify-content: space-between;
 }
 
 .lecturer-basic {
-    font-size: 0.75rem;
-    padding-right: 1.3vw;
+    font-size: 0.9rem;
     padding-top: 2vw;
+    text-decoration: underline;
 }
 
 .lecturer-picture {
-    padding-left: 3.7vw;
-    padding-top: 2vw;
+    border-radius: 6.5px;
+    box-shadow: 5px 5px 5px var(--jet);
+    width: 13vw;
+    background-color: var(--sunglow);
+}
+
+.default-picture {
+    padding: 2vw;
+}
+
+.lecturer-card:hover {
+    background-color: var(--prussian-blue);
+    transition-duration: 0.5s;
 }
 </style>
