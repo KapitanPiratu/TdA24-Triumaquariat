@@ -1,0 +1,16 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: var(--white)
+}
+
+h1,
+h2,
+h3 {
+  font-family: Lalezar;
+}
+
+p {
+  font-family: Open Sans;
+}
