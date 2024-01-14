@@ -13,7 +13,9 @@ onMounted(() => {
                 props.lecturer.middle_name }} {{
         props.lecturer.last_name }} {{ props.lecturer.title_after }}</h1>
             <div style="text-align: center;">
-                <img class="image_paragraph" :src="props.lecturer.picture_url" alt="tda image" />
+                <img v-if="props.lecturer.picture_url" class="image_paragraph" :src="props.lecturer.picture_url"
+                    alt="tda image" />
+                <img v-else class="image_paragraph" src="~/assets/svg/tda_studium.svg" alt="tda image">
             </div>
             <h2 class="claim">{{ props.lecturer.claim }}</h2>
         </div>
