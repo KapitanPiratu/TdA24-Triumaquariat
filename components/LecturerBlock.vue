@@ -20,6 +20,11 @@ onMounted(() => {
             <h2 class="claim">{{ props.lecturer.claim }}</h2>
         </div>
         <div v-if="props.display.includes('personaldata')">
+            <div class="tags-container">
+                <div class="tag" v-for="tag in props.lecturer.tags">
+                    <p>{{ tag.name }}</p>
+                </div>
+            </div>
             <div class="bio" style="text-align: left;" v-html="props.lecturer.bio"></div>
         </div>
         <div v-if="props.display.includes('contact')">
@@ -61,10 +66,11 @@ onMounted(() => {
     margin: 5vw;
     margin-top: 3vh;
     overflow-y: auto;
+    transition-duration: 0.5s;
 }
 
 .sunglow {
-    background-color: var(--sunglow);
+    background-color: var(--sky-blue);
     /* margin-left: 37.5vw;
     position: absolute; */
 }
@@ -76,9 +82,13 @@ onMounted(() => {
 }
 
 .prussian-blue {
-    background-color: var(--prussian-blue);
+    background-color: var(--sky-blue);
     /* margin-left: 67.5vw;
     position: absolute; */
+}
+
+.block:hover {
+    background-color: var(--prussian-blue);
 }
 
 /* 
@@ -113,7 +123,10 @@ onMounted(() => {
 }
 
 .bio {
+    position: absolute;
+    top: 13vh;
     padding: 1rem;
+    width: 22vw
 }
 
 .contact-container {
@@ -144,5 +157,35 @@ onMounted(() => {
 .names-container * {
     margin-top: 3vh;
     margin-bottom: 3vh;
+}
+
+.tags-container {
+    max-height: 10vh;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 1vw;
+    padding: 1vh;
+}
+
+.tags-container:hover {
+    overflow-x: auto;
+}
+
+.tag {
+    display: inline-block;
+    margin-right: 1vw;
+    border: 3px solid var(--sunglow);
+    border-radius: 30px;
+    transition-duration: 0.2s;
+}
+
+.tag p {
+    /* color: var(--sunglow) !important; */
+    padding: 0.5vw;
+}
+
+.tag:hover {
+    background-color: var(--sunglow);
+    border-radius: 30px;
 }
 </style>
