@@ -25,7 +25,7 @@ onMounted(() => {
                     <p>{{ tag.name }}</p>
                 </div>
             </div>
-            <div class="bio" style="text-align: left;" v-html="props.lecturer.bio"></div>
+            <p class="bio" style="text-align: left;" v-html="props.lecturer.bio"></p>
         </div>
         <div v-if="props.display.includes('contact')">
             <div class="contact-container">
