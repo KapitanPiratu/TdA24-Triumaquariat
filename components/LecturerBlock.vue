@@ -20,12 +20,8 @@ onMounted(() => {
             <h2 class="claim">{{ props.lecturer.claim }}</h2>
         </div>
         <div v-if="props.display.includes('personaldata')">
-            <div class="tags-container">
-                <div class="tag" v-for="tag in props.lecturer.tags">
-                    <p>{{ tag.name }}</p>
-                </div>
-            </div>
-            <div class="bio" style="text-align: left;" v-html="props.lecturer.bio"></div>
+            <Tags :tags="props.lecturer.tags" />
+            <p class="bio" style="text-align: left;" v-html="props.lecturer.bio"></p>
         </div>
         <div v-if="props.display.includes('contact')">
             <div class="contact-container">
@@ -157,35 +153,5 @@ onMounted(() => {
 .names-container * {
     margin-top: 3vh;
     margin-bottom: 3vh;
-}
-
-.tags-container {
-    max-height: 10vh;
-    overflow: hidden;
-    white-space: nowrap;
-    margin: 1vw;
-    padding: 1vh;
-}
-
-.tags-container:hover {
-    overflow-x: auto;
-}
-
-.tag {
-    display: inline-block;
-    margin-right: 1vw;
-    border: 3px solid var(--sunglow);
-    border-radius: 30px;
-    transition-duration: 0.2s;
-}
-
-.tag p {
-    /* color: var(--sunglow) !important; */
-    padding: 0.5vw;
-}
-
-.tag:hover {
-    background-color: var(--sunglow);
-    border-radius: 30px;
 }
 </style>
