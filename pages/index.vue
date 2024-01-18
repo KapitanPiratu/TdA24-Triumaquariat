@@ -20,7 +20,7 @@ onMounted(() => {
         <div class="lecturer-card-wrapper" v-for="lecturer in lecturers">
             <nuxt-link class="link" :to="'/lecturer/' + lecturer.uuid">
                 <div class="lecturer-card">
-                    <Tags :tags="lecturer.tags" />
+                    <Tags :tags="lecturer.tags" :margin="true" />
                     <div :class="{ 'lecturer-card-absolute': lecturer.tags[0].uuid }">
                         <img v-if="lecturer.picture_url" :src="lecturer.picture_url" alt="tda image"
                             class="lecturer-picture">
@@ -50,7 +50,7 @@ onMounted(() => {
 .lecturer-card {
     padding: 1rem;
     background-color: var(--sky-blue);
-    height: 60vh;
+    height: 65vh;
     width: 20vw;
     border-radius: 6.5px;
     text-align: center;
@@ -104,6 +104,7 @@ onMounted(() => {
 }
 
 .lecturer-picture {
+    margin-top: 2vh;
     border-radius: 6.5px;
     box-shadow: 5px 5px 5px var(--jet);
     width: 13vw;
