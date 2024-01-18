@@ -39,7 +39,7 @@ onMounted(() => {
                         </div>
                         <div class="location-price-wrapper">
                             <h2 class="lecturer-location">{{ lecturer.location }}</h2>
-                            <h2 class="lecturer-price">{{ lecturer.price_per_hour }}</h2>
+                            <h2 class="lecturer-price">{{ lecturer.price_per_hour }}&nbsp;Kč/h</h2>
                         </div>
                         <p class="lecturer-claim">{{ lecturer.claim }}</p>
                         <br>
