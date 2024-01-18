@@ -26,11 +26,13 @@ const blocks = [
 
 const lecturers = ref([]);
 
+const route = useRoute();
+
 async function getLecturers() {
-    await $fetch('/api/lecturers', {
+    await $fetch(`/api/lecturers/${route.params.uuid}`, {
         method: 'get',
         onResponse(response) {
-            lecturers.value = response.response._data[0] || {};
+            lecturers.value = response.response._data || {};
             console.log(lecturers.value);
         }
     });
