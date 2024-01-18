@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(['tags']);
+const props = defineProps(['tags', 'margin']);
 
 function randomIcon() {
     const icons = [
@@ -17,7 +17,7 @@ function randomIcon() {
 </script>
 
 <template>
-    <div class="tags-container">
+    <div class="tags-container" :class="{ 'margin_for_list': props.margin }">
         <div class="tag" v-for="tag in props.tags">
             <img :src="randomIcon()" alt="tda icon">
             <p>{{ tag.name }}</p>
@@ -62,5 +62,9 @@ img {
     width: 5vh;
     margin: 0.5vh;
     /* padding: 1vw; */
+}
+
+.margin_for_list {
+    margin: 0;
 }
 </style>
