@@ -20,7 +20,8 @@ onMounted(() => {
             <h2 class="claim">{{ props.lecturer.claim }}</h2>
         </div>
         <div v-if="props.display.includes('personaldata')">
-            <div class="bio" style="text-align: left;" v-html="props.lecturer.bio"></div>
+            <Tags :tags="props.lecturer.tags" />
+            <p class="bio" style="text-align: left;" v-html="props.lecturer.bio"></p>
         </div>
         <div v-if="props.display.includes('contact')">
             <div class="contact-container">
@@ -61,10 +62,11 @@ onMounted(() => {
     margin: 5vw;
     margin-top: 3vh;
     overflow-y: auto;
+    transition-duration: 0.5s;
 }
 
 .sunglow {
-    background-color: var(--sunglow);
+    background-color: var(--sky-blue);
     /* margin-left: 37.5vw;
     position: absolute; */
 }
@@ -76,9 +78,13 @@ onMounted(() => {
 }
 
 .prussian-blue {
-    background-color: var(--prussian-blue);
+    background-color: var(--sky-blue);
     /* margin-left: 67.5vw;
     position: absolute; */
+}
+
+.block:hover {
+    background-color: var(--prussian-blue);
 }
 
 /* 
@@ -113,7 +119,10 @@ onMounted(() => {
 }
 
 .bio {
+    position: absolute;
+    top: 13vh;
     padding: 1rem;
+    width: 22vw
 }
 
 .contact-container {
