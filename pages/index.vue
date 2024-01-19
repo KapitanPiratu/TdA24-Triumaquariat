@@ -50,11 +50,12 @@ onMounted(() => {
 .lecturer-card {
     padding: 1rem;
     background-color: var(--sky-blue);
-    height: 65vh;
-    width: 20vw;
+    height: 70vh;
+    width: 21vw;
     border-radius: 6.5px;
     text-align: center;
     position: relative;
+    transition-duration: 0.5s;
 }
 
 .lecturer-card-absolute {
@@ -65,7 +66,7 @@ onMounted(() => {
 }
 
 .lecturer-card-wrapper {
-    margin: 2vw;
+    margin: 1.5vw;
 }
 
 .link {
@@ -116,7 +117,6 @@ onMounted(() => {
 }
 
 .lecturer-card:hover {
-    background-color: var(--prussian-blue);
-    transition-duration: 0.5s;
+    box-shadow: 10px 10px var(--prussian-blue);
 }
 </style>
