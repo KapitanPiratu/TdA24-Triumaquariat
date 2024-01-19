@@ -14,7 +14,7 @@ Náš tým je složen ze středoškoláků, kteří absolutně netuší co děla
 
 ## 🧪 Co aplikace umí
 
-Aktuálně splňujeme první, druhou a třetí fázi dle [zadání](https://tourdeapp.cz/zadani), na poslední fázi se velice aktivně pracuje 😁.
+Aktuálně splňujeme veškerou funkcionalitu dle [zadání](https://tourdeapp.cz/zadani), až na filtrování (což bohužel naši frontend vývojáři nestihli 😅).
 
 ## 🤫 PS
 
