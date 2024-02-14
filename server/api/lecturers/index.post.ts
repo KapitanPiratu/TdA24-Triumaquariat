@@ -15,7 +15,15 @@ export default defineEventHandler(async (event) => {
                     const id = uuidv4();
                     body['uuid'] = id;
 
-                    if (!body['first_name'] || !body['last_name'] || !body['contact'] || !Object.keys(body['contact']).includes('emails') || !Object.keys(body['contact']).includes('telephone_numbers')) {
+                    if (
+                        !body['first_name'] ||
+                        !body['last_name'] ||
+                        !body['contact'] ||
+                        !Object.keys(body['contact']).includes('emails') ||
+                        !Object.keys(body['contact']).includes('telephone_numbers') ||
+                        !body['username'] ||
+                        !body['password']
+                    ) {
                         setResponseStatus(event, 400);
                         resolve({ code: 400, message: 'Bad request' });
                     } else {
@@ -32,7 +40,9 @@ export default defineEventHandler(async (event) => {
                                 location,
                                 claim,
                                 bio,
-                                price_per_hour
+                                price_per_hour,
+                                username,
+                                password
                             )
                             VALUES(
             
@@ -46,7 +56,9 @@ export default defineEventHandler(async (event) => {
                                 "${body['location']}",
                                 "${body['claim']}",
                                 "${body['bio']}",
-                                ${body['price_per_hour'] || null}
+                                ${body['price_per_hour'] || null},
+                                "${body['username']}",
+                                "${body['password']}"
                             )
                         `, (err) => {
                             if (err) console.log('lecturer err: ' + err);
