@@ -31,7 +31,9 @@ export default defineEventHandler((event) => {
                                 location = "${body.location}",
                                 claim = "${body.claim}",
                                 bio = "${body.bio}",
-                                price_per_hour = "${body.price_per_hour}"
+                                price_per_hour = "${body.price_per_hour}",
+                                username = "${body.username}",
+                                password = "${body.password}"
                             WHERE uuid = "${uuid}"
                         `, (err => {
                             if (err) {
