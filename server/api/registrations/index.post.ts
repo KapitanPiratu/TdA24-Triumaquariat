@@ -21,17 +21,19 @@ export default defineEventHandler((event) => {
                             time_from,
                             time_to,
                             place,
-                            comment
+                            comment,
+                            lecturer_uuid
                         )
                         VALUES (
                             "${body.uuid}",
                             "${body.name}",
                             "${body.email}",
                             "${body.date}",
-                            "${body.timeFrom}",
-                            "${body.timeTo}",
+                            "${body.time_from}",
+                            "${body.time_to}",
                             "${body.place}",
-                            "${body.comment}"
+                            "${body.comment}",
+                            "${body.lecturer_uuid}"
                         )
                     `, (err) => {
                         if (err) {
