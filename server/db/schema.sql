@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS registrations (
     place TEXT,
     comment TEXT,
     lecturer_uuid TEXT,
-    FOREIGN KEY (lecturer_uuid) REFERENCES lecturers (uuid) ON CASCADE DELETE
+    FOREIGN KEY (lecturer_uuid) REFERENCES lecturers (uuid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS registrations_tags (
