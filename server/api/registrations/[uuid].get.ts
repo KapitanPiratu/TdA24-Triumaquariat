@@ -19,7 +19,7 @@ export default defineEventHandler((event) => {
             WHERE
                 reservations.lecturer_uuid = "${lecturer_uuid}"
             GROUP BY reservations.uuid
-        `, (err, rows) => {
+        `, (err, rows: any) => {
 
             if (err) {
                 console.log(err);
@@ -29,6 +29,11 @@ export default defineEventHandler((event) => {
                 setResponseStatus(event, 404);
                 resolve({ message: 'lecturer not found' })
             } else {
+
+                rows.forEach((row: any) => {
+                    row.tags = JSON.parse(row.tags);
+                });
+
                 resolve(rows);
             }
 
