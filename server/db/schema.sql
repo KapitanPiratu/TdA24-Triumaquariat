@@ -53,7 +53,9 @@ CREATE TABLE IF NOT EXISTS registrations (
     time_from TEXT,
     time_to TEXT,
     place TEXT,
-    comment TEXT
+    comment TEXT,
+    lecturer_uuid TEXT,
+    FOREIGN KEY (lecturer_uuid) REFERENCES lecturers (uuid) ON CASCADE DELETE
 );
 
 CREATE TABLE IF NOT EXISTS registrations_tags (
