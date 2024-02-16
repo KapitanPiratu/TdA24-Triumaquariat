@@ -39,7 +39,84 @@ export default defineEventHandler((event) => {
                             setResponseStatus(event, 500);
                             resolve({ code: 500, message: err });
                         } else {
-                            resolve({ code: 200 });
+
+
+                            console.log(body.tags);
+                            if (body.tags && !body.tags.length || !Object.keys(body).includes('tags')) {
+                                resolve({ code: 200 });
+                            } else {
+
+                                body.tags.forEach((tag: any) => {
+                                    db.get(`SELECT * FROM tags WHERE name = "${tag.name}"`, (err, row: any) => {
+                                        if (err) {
+                                            setResponseStatus(event, 500);
+                                            resolve({ code: 500, message: err });
+                                        }
+                                        if (row) {
+
+                                            //already exists
+                                            db.all('SELECT * FROM tags', () => {
+                                                db.run(`
+                                                    INSERT INTO registrations_tags(
+                                                        tag_uuid,
+                                                        registration_uuid
+                                                    )
+                                                    VALUES(
+                                                        "${row.uuid}",
+                                                        "${uuid}"
+                                                    )
+                                                `, (err) => {
+
+                                                    if (err) {
+                                                        console.log(err);
+                                                        console.log('res ' + res)
+                                                    }
+                                                    resolve(body);
+
+                                                });
+                                            })
+
+                                        } else {
+
+                                            //completely new tag
+                                            const taguuid = uuidv4();
+                                            tag['uuid'] = taguuid;
+
+                                            db.run(`
+                                                INSERT INTO tags(
+                                                    uuid,
+                                                    name
+                                                )
+                                                VALUES(
+                                                    "${taguuid}",
+                                                    "${tag.name}"
+                                                )
+                                            `, (err) => {
+                                                if (err) console.log('tags foreach end ' + err);
+
+                                                db.all('SELECT * FROM tags', () => {
+                                                    db.run(`
+                                                        INSERT INTO registrations_tags(
+                                                            tag_uuid,
+                                                            registration_uuid
+                                                        )
+                                                        VALUES(
+                                                            "${taguuid}",
+                                                            "${uuid}"
+                                                        )
+                                                    `, (err) => {
+                                                        console.log(err);
+                                                        console.log('res ' + res)
+                                                        resolve(body);
+                                                    });
+                                                })
+                                            });
+                                        }
+                                    })
+                                });
+                            }
+
+
                         }
                     })
 
