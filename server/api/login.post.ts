@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken';
+import sqlite3 from "sqlite3";
+const db = new sqlite3.Database('./server/db/records.db');
+import bcrypt from 'bcrypt';
 
 export default defineEventHandler((event) => {
 
@@ -15,9 +18,34 @@ export default defineEventHandler((event) => {
                     return;
                 }
 
-                const token = jwt.sign({ username: body['username'] }, 'tempsecret', { expiresIn: '1d' });
+                db.get(`SELECT * FROM lecturers WHERE username = "${body['username']}"`, (err: any, row: any) => {
+                    if (err) {
+                        console.log(err);
+                        setResponseStatus(event, 500);
+                        resolve({
+                            message: err
+                        });
+                    } else if (!row) {
+                        setResponseStatus(event, 404);
+                        resolve({
+                            message: 'User not found'
+                        });
+                    } else {
 
-                resolve({ token: token });
+                        bcrypt.compare(body['password'], row['password'], (err, result) => {
+                            if (result) {
+                                const token = jwt.sign({ username: body['username'] }, 'tempsecret', { expiresIn: '1d' });
+                                resolve({ token: token });
+                            } else {
+                                setResponseStatus(event, 401);
+                                resolve({
+                                    message: 'Wrong password'
+                                });
+                            }
+                        })
+                    }
+                })
+
             })
     })
     return res
