@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS lecturers_tags (
     FOREIGN KEY (lecturer_uuid) REFERENCES lecturers(uuid) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS registrations (
+CREATE TABLE IF NOT EXISTS reservations (
     uuid TEXT PRIMARY KEY,
     name TEXT,
     email TEXT,
@@ -58,10 +58,10 @@ CREATE TABLE IF NOT EXISTS registrations (
     FOREIGN KEY (lecturer_uuid) REFERENCES lecturers (uuid) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS registrations_tags (
+CREATE TABLE IF NOT EXISTS reservations_tags (
     tag_uuid TEXT,
-    registration_uuid TEXT,
-    PRIMARY KEY (tag_uuid, registration_uuid),
+    reservation_uuid TEXT,
+    PRIMARY KEY (tag_uuid, reservation_uuid),
     FOREIGN KEY (tag_uuid) REFERENCES tags (uuid) ON DELETE CASCADE,
-    FOREIGN KEY (registration_uuid) REFERENCES registrations (uuid) ON DELETE CASCADE
+    FOREIGN KEY (reservation_uuid) REFERENCES reservations (uuid) ON DELETE CASCADE
 );

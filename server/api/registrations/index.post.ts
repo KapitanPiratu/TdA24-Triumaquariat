@@ -13,7 +13,7 @@ export default defineEventHandler((event) => {
                     body.uuid = uuid;
 
                     db.run(`
-                        INSERT INTO registrations (
+                        INSERT INTO reservations (
                             uuid,
                             name,
                             email,
@@ -59,9 +59,9 @@ export default defineEventHandler((event) => {
                                             //already exists
                                             db.all('SELECT * FROM tags', () => {
                                                 db.run(`
-                                                    INSERT INTO registrations_tags(
+                                                    INSERT INTO reservations_tags(
                                                         tag_uuid,
-                                                        registration_uuid
+                                                        reservation_uuid
                                                     )
                                                     VALUES(
                                                         "${row.uuid}",
@@ -98,9 +98,9 @@ export default defineEventHandler((event) => {
 
                                                 db.all('SELECT * FROM tags', () => {
                                                     db.run(`
-                                                        INSERT INTO registrations_tags(
+                                                        INSERT INTO reservations_tags(
                                                             tag_uuid,
-                                                            registration_uuid
+                                                            reservation_uuid
                                                         )
                                                         VALUES(
                                                             "${taguuid}",

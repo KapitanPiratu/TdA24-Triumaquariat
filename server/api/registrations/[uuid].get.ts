@@ -8,17 +8,17 @@ export default defineEventHandler((event) => {
 
         db.all(`
             SELECT
-                registrations.*,
+                reservations.*,
                 json_group_array(DISTINCT json_object('uuid', tags.uuid, 'name', tags.name)) AS tags
             FROM
-                registrations
+                reservations
             LEFT JOIN
-                registrations_tags ON registrations.uuid = registrations_tags.registration_uuid
+                reservations_tags ON reservations.uuid = reservations_tags.reservation_uuid
             LEFT JOIN
-                tags ON registrations_tags.tag_uuid = tags.uuid
+                tags ON reservations_tags.tag_uuid = tags.uuid
             WHERE
-                registrations.lecturer_uuid = "${lecturer_uuid}"
-            GROUP BY registrations.uuid
+                reservations.lecturer_uuid = "${lecturer_uuid}"
+            GROUP BY reservations.uuid
         `, (err, rows) => {
 
             if (err) {
