@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS lecturers (
     location TEXT,
     claim TEXT,
     bio TEXT,
-    price_per_hour INTEGER
+    price_per_hour INTEGER,
+    username TEXT,
+    password TEXT
 );
 
 CREATE TABLE IF NOT EXISTS contact (
