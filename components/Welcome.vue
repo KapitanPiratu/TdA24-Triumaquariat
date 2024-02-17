@@ -1,11 +1,21 @@
+<script setup>
+
+function scrollDown() {
+    const cards = document.getElementById('cards-container');
+    cards.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth'
+    });
+}
+
+</script>
+
 <template>
     <div class="welcome-container">
         <p class="moto">Usnadňujeme&nbsp;vám&nbsp;najít&nbsp;si&nbsp;svého&nbsp;vysněného&nbsp;lektora</p>
-        <a href="#cards-container">
-            <button class="go-to-search-btn">
-                <p>Začít hledat</p>
-            </button>
-        </a>
+        <button @click="scrollDown" class="go-to-search-btn">
+            <p>Začít hledat</p>
+        </button>
         <img class="icons-line" src="~/assets/svg/tda_ikony_celek.svg" alt="tda icons">
     </div>
 </template>
