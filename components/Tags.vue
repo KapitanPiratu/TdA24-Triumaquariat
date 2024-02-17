@@ -12,7 +12,7 @@ const props = defineProps(['tags']);
 
 <style scoped>
 .tags-container {
-    max-height: 20vh;
+    max-height: 11vh;
     overflow: hidden;
     display: flex;
     flex-wrap: wrap;
