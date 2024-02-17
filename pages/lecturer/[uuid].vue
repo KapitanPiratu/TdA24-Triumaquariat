@@ -40,9 +40,6 @@ async function getLecturers() {
 onMounted(() => {
     getLecturers();
 });
-computed: {
-
-};
 </script>
 
 <template>
@@ -50,16 +47,22 @@ computed: {
         <LecturerBlock v-for="(block, index) in blocks" :color="block.color" :display="block.display"
             :lecturer="lecturers" />
     </div>
+
+    <Footer />
 </template>
 
 <style scoped>
 .blocks-container {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    top: 13vh;
+    position: relative;
+    top: 21.5vh;
+
+    margin-bottom: 15vh;
+
     width: 100vw;
     max-width: 100%;
     height: 87vh;
+
+    display: flex;
+    justify-content: space-between;
 }
 </style>
