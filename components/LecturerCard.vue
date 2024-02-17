@@ -59,6 +59,8 @@ const lecturer = props.lecturer;
 
                 </div>
 
+                <Tags :tags="lecturer.tags" />
+
             </div>
         </nuxt-link>
     </div>
