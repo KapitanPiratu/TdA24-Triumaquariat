@@ -16,7 +16,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="cards-container">
+    <Welcome />
+
+    <div id="cards-container" class="cards-container">
         <div class="lecturer-card-wrapper" v-for="lecturer in lecturers">
             <nuxt-link class="link" :to="'/lecturer/' + lecturer.uuid">
                 <div class="lecturer-card">
@@ -77,8 +79,9 @@ onMounted(() => {
     display: flex;
     flex-wrap: wrap;
     position: absolute;
-    top: 13vh;
+    top: 100vh;
     width: 100vw;
+    min-height: 100vh;
     max-width: 100%;
 }
 
