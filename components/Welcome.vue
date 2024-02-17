@@ -22,7 +22,7 @@ function scrollDown() {
 
 <style scoped>
 .welcome-container {
-    position: absolute;
+    position: relative;
     top: 21.5vh;
     width: 100vw;
     height: 78.5vh;

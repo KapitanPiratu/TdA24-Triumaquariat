@@ -144,6 +144,6 @@ const lecturer = props.lecturer;
 
 .lecturer-claim {
     font-style: italic;
-    margin: 2vh;
+    margin: 2.2vh;
 }
 </style>
