@@ -32,6 +32,10 @@ export default defineEventHandler((event) => {
 
                 rows.forEach((row: any) => {
                     row.tags = JSON.parse(row.tags);
+
+                    if (row.tags[0].name === null && row.tags[0].uuid === null) {
+                        row.tags = [];
+                    }
                 });
 
                 resolve(rows);
