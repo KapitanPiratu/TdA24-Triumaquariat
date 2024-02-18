@@ -19,6 +19,8 @@ onMounted(() => {
     <Welcome />
 
     <div class="layout">
+        <Filters />
+
         <div id="cards-container" class="cards-container">
             <LecturerCard v-for="lecturer in lecturers" :lecturer="lecturer" />
 
