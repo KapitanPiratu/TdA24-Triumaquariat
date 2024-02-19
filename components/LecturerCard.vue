@@ -61,10 +61,10 @@ const lecturer = props.lecturer;
 
                 <Tags :tags="lecturer.tags" />
 
-                <ReservationButton />
 
             </div>
         </nuxt-link>
+        <ReservationButton />
     </div>
 </template>
 
@@ -73,6 +73,14 @@ const lecturer = props.lecturer;
     margin: 0.5vw;
     margin-top: 3vh;
     margin-bottom: 0;
+
+    height: 85vh;
+    width: 20.5vw;
+
+    position: relative;
+
+    transition-duration: 0.5s;
+    border-radius: 6.5px;
 }
 
 .link {
@@ -90,10 +98,9 @@ const lecturer = props.lecturer;
 
     text-align: center;
     position: relative;
-    transition-duration: 0.5s;
 }
 
-.lecturer-card:hover {
+.lecturer-card-wrapper:hover {
     box-shadow: 10px 10px var(--prussian-blue);
 }
 
