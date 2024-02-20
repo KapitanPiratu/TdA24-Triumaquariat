@@ -64,7 +64,7 @@ const lecturer = props.lecturer;
 
             </div>
         </nuxt-link>
-        <ReservationButton />
+        <ReservationButton :lecturer="lecturer" />
     </div>
 </template>
 
