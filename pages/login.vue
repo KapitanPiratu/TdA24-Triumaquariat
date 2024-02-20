@@ -4,8 +4,7 @@ const password = ref('');
 
 const status = ref('');
 
-async function login(e) {
-    e.preventDefault();
+async function login() {
     const response = await $fetch('/api/login', {
         method: 'post',
         body: {
