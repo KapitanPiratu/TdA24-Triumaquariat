@@ -17,7 +17,7 @@
 
         </div>
 
-        <p class="copyright">&#169; Teacher Digital Agency - Všechna práva vyhrazena</p>
+        <p class="copyright">&#169; Teacher Digital Agency 2024 - Všechna práva vyhrazena</p>
 
     </div>
 </template>

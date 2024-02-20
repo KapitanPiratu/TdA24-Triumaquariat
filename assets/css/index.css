@@ -11,14 +11,11 @@ body {
 
 html {
   scroll-behavior: smooth;
+  font-family: Open Sans !important;
 }
 
 h1,
 h2,
 h3 {
-  font-family: Lalezar;
-}
-
-p {
-  font-family: Open Sans;
+  font-family: Lalezar !important;
 }
