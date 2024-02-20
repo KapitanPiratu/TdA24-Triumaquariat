@@ -37,10 +37,10 @@ async function login(e) {
     <div class="login-container">
         <h1>Login</h1>
         <form>
-            <input v-model="username" type="text"> <br>
-            <input v-model="password" type="text"> <br>
-            <button @click="login">Potvrdit</button>
+            <v-text-field class="input" v-model="username" type="text" label="username"> </v-text-field>
+            <v-text-field class="input" v-model="password" type="text" label="password"> </v-text-field>
             <p class="status">{{ status }}</p>
+            <v-btn class="button" @click="login">Potvrdit</v-btn>
         </form>
     </div>
 </template>
@@ -48,13 +48,30 @@ async function login(e) {
 <style scoped>
 .login-container {
     position: absolute;
-    top: 21.5vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
     background-color: var(--sky-blue);
     padding: 5vh;
+    border-radius: 6.5px;
 }
 
-input,
-button {
-    color: #000;
+.button {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 10vw !important;
+    height: 6vh !important;
+
+    margin: 2vh;
+    margin-left: 0;
+
+    background-color: var(--sunglow);
+}
+
+.input {
+    width: 25vw;
 }
 </style>
