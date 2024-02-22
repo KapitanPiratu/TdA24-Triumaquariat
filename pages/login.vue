@@ -1,4 +1,6 @@
 <script setup>
+const emit = defineEmits(['logged_in'])
+
 const username = ref('');
 const password = ref('');
 
@@ -22,6 +24,7 @@ async function login() {
                 if (data.token) {
                     status.value = 'successfullu logged in';
                     localStorage.setItem('token', data.token);
+                    emit('logged_in')
                     navigateTo('/dashboard')
                 } else {
                     status.value = 'login failed';

@@ -2,8 +2,40 @@
 const showMenu = ref(false);
 
 function hideMenu() {
+    validateToken()
     showMenu.value = false;
 };
+
+const validToken = ref(false);
+
+async function validateToken() {
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+
+    await $fetch('/api/validate', {
+        method: 'post',
+        body: {
+            token: token
+        },
+        onResponse(response) {
+            validToken.value = response.response._data.valid;
+        }
+    })
+}
+
+function logout() {
+    localStorage.removeItem('token');
+    showMenu.value = false;
+    validToken.value = false;
+}
+
+onMounted(() => {
+    validateToken()
+})
+
+const logged_count = inject('logged_count');
+watch(logged_count, validateToken);
 </script>
 
 <template>
@@ -12,7 +44,7 @@ function hideMenu() {
         <p class="menu-text">Menu</p>
     </v-btn>
 
-    <v-menu activator="#menu-activator" class="menu-list" :class="{ shown: true }">
+    <v-menu activator="#menu-activator" class="menu-list" :class="{ 'menu-large': validToken }">
 
         <nuxt-link @click="hideMenu" class="link" to="/">
             <img class="icon" src="~/assets/svg/home.svg" alt="home svg">
@@ -24,9 +56,19 @@ function hideMenu() {
             <p>Seznam lektorů</p>
         </nuxt-link>
 
-        <nuxt-link @click="hideMenu" class="link" to="/login">
+        <nuxt-link v-if="validToken" @click="hideMenu" class="link" to="/dashboard">
+            <img class="icon" src="~/assets/svg/time.svg" alt="home svg">
+            <p>Moje rezervace</p>
+        </nuxt-link>
+
+        <nuxt-link v-else @click="hideMenu" class="link" to="/login">
             <img class="icon" src="~/assets/svg/lecturer_login.svg" alt="home svg">
             <p>Přihlášení pro lektory</p>
+        </nuxt-link>
+
+        <nuxt-link v-if="validToken" @click="logout" class="link" to="/">
+            <img class="icon" src="~/assets/svg/logout.svg" alt="home svg">
+            <p>Odhlásit se</p>
         </nuxt-link>
 
     </v-menu>
@@ -69,12 +111,12 @@ img {
     transform: translateX(-5vw);
 
     width: 26vw;
-    height: 30vh;
+    height: 27vh;
 
     background-color: var(--white);
     box-shadow: 1px 1px 3px var(--jet);
 
-    display: none;
+    display: grid;
     grid-template-columns: 1fr;
 }
 
@@ -82,8 +124,8 @@ img {
     transform: translateX(-1vw);
 }
 
-.shown {
-    display: grid;
+.menu-large {
+    height: 35vh !important;
 }
 
 .link {
