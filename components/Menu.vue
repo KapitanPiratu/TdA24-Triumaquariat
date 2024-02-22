@@ -7,7 +7,12 @@ function hideMenu() {
 </script>
 
 <template>
-    <div class="menu-list" :class="{ shown: showMenu }">
+    <v-btn id="menu-activator" class="menu-button">
+        <img class="menu-icon" ref="svg" src="~/assets/svg/menu.svg" alt="menu icon">
+        <p class="menu-text">Menu</p>
+    </v-btn>
+
+    <v-menu activator="#menu-activator" class="menu-list" :class="{ shown: true }">
 
         <nuxt-link @click="hideMenu" class="link" to="/">
             <img class="icon" src="~/assets/svg/home.svg" alt="home svg">
@@ -24,12 +29,7 @@ function hideMenu() {
             <p>Přihlášení pro lektory</p>
         </nuxt-link>
 
-    </div>
-
-    <div class="menu-button" @click="showMenu = !showMenu">
-        <img class="menu-icon" ref="svg" src="~/assets/svg/menu.svg" alt="menu icon">
-        <p class="menu-text">Menu</p>
-    </div>
+    </v-menu>
 </template>
 
 <style scoped>
@@ -55,24 +55,31 @@ img {
 .menu-button {
     cursor: pointer;
     width: 10vw;
-    height: 5.5vh;
+    height: 5.5vh !important;
     position: absolute;
     left: 1.5vw;
     margin: 0.5vh;
+    box-shadow: none;
+    background-color: transparent;
 }
 
 .menu-list {
     position: absolute;
-    top: 6.5vh;
+    top: 21.5vh;
+    transform: translateX(-5vw);
 
-    width: 20vw;
-    height: auto;
+    width: 26vw;
+    height: 30vh;
 
     background-color: var(--white);
     box-shadow: 1px 1px 3px var(--jet);
 
     display: none;
     grid-template-columns: 1fr;
+}
+
+.menu-list * {
+    transform: translateX(-1vw);
 }
 
 .shown {
@@ -103,8 +110,10 @@ img {
 .menu-list p {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-45%);
     left: 3vw;
+
+    width: 15vw;
 
     font-size: 1.4rem;
 }
