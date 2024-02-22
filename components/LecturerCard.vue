@@ -74,7 +74,7 @@ const lecturer = props.lecturer;
     margin-top: 3vh;
     margin-bottom: 0;
 
-    height: 85vh;
+    height: 88vh;
     width: 20.5vw;
 
     position: relative;
@@ -88,7 +88,7 @@ const lecturer = props.lecturer;
 }
 
 .lecturer-card {
-    height: 85vh;
+    height: 88vh;
     width: 20.5vw;
 
     padding: 1rem;
@@ -151,6 +151,6 @@ const lecturer = props.lecturer;
 
 .lecturer-claim {
     font-style: italic;
-    margin: 2.2vh;
+    margin: 2.4vh;
 }
 </style>
