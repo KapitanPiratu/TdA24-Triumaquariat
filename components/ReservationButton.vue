@@ -68,22 +68,32 @@ function removeTag(name) {
     tagsSelected.value = list;
 }
 
+const rules = [
+    value => !!value || false
+]
+
+const form = ref(null);
+
 async function postReservation(e) {
     e.preventDefault();
-    await $fetch(`/api/reservation`, {
-        method: 'post',
-        body: {
-            name: name.value,
-            email: email.value,
-            date: formatedDate.value,
-            time_from: time_start.value,
-            time_to: time_end.value,
-            place: place.value,
-            comment: comment.value,
-            tags: tagsSelected.value,
-            lecturer_uuid: props.lecturer.uuid
-        }
-    })
+
+    const { valid } = await form.value.validate();
+    if (valid) {
+        await $fetch(`/api/reservation`, {
+            method: 'post',
+            body: {
+                name: name.value,
+                email: email.value,
+                date: formatedDate.value,
+                time_from: time_start.value,
+                time_to: time_end.value,
+                place: place.value,
+                comment: comment.value || '',
+                tags: tagsSelected.value,
+                lecturer_uuid: props.lecturer.uuid
+            }
+        })
+    }
 }
 </script>
 
@@ -100,18 +110,18 @@ async function postReservation(e) {
             </v-card-title>
 
             <v-card-item class="card-item">
-                <v-form class="form">
+                <v-form class="form" ref="form" @submit.prevent="postReservation">
 
                     <div class="form-container">
-                        <v-text-field v-model="name" class="dialog-input" label="Jméno"></v-text-field>
-                        <v-text-field v-model="email" class="dialog-input" label="Email"></v-text-field>
+                        <v-text-field v-model="name" :rules="rules" class="dialog-input" label="Jméno"></v-text-field>
+                        <v-text-field v-model="email" :rules="rules" class="dialog-input" label="Email"></v-text-field>
 
                         <v-textarea v-model="comment" class="dialog-input" label="Komentář (dobrovolný)"></v-textarea>
                     </div>
 
                     <div class="form-container">
-                        <v-text-field class="dialog-input date-input" v-model="formatedDate" label="Vyber datum" readonly
-                            @click="menu = !menu"></v-text-field>
+                        <v-text-field class="dialog-input date-input" v-model="formatedDate" :rules="rules"
+                            label="Vyber datum" readonly @click="menu = !menu"></v-text-field>
 
                         <v-dialog v-model="menu" class="dialog">
                             <v-card class="date-card">
@@ -121,18 +131,18 @@ async function postReservation(e) {
                         </v-dialog>
 
                         <div class="times-container">
-                            <v-select class="dialog-input time-input" label="Vyber čas" v-model="time_start"
+                            <v-select class="dialog-input time-input" :rules="rules" label="Vyber čas" v-model="time_start"
                                 :items="timesListForStart">
                             </v-select>
 
                             <p>—</p>
 
-                            <v-select class="dialog-input time-input" label="Vyber čas" v-model="time_end"
+                            <v-select class="dialog-input time-input" :rules="rules" label="Vyber čas" v-model="time_end"
                                 :items="timesList2">
                             </v-select>
                         </div>
 
-                        <v-select class="dialog-input" label="Vyber místo" v-model="place"
+                        <v-select class="dialog-input" :rules="rules" label="Vyber místo" v-model="place"
                             :items="['Online', 'Offline (lektorova lokace)']"></v-select>
 
                     </div>
@@ -156,7 +166,7 @@ async function postReservation(e) {
                             </div>
                         </div>
                     </div>
-                    <button class="dialog-btn" @click="postReservation">
+                    <button class="dialog-btn" type="submit">
                         <p>Odeslat</p>
                     </button>
                 </v-form>
