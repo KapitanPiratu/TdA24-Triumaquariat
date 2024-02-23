@@ -1,11 +1,12 @@
 <script setup>
+const emit = defineEmits(['logged_in'])
+
 const username = ref('');
 const password = ref('');
 
 const status = ref('');
 
-async function login(e) {
-    e.preventDefault();
+async function login() {
     const response = await $fetch('/api/login', {
         method: 'post',
         body: {
@@ -23,6 +24,7 @@ async function login(e) {
                 if (data.token) {
                     status.value = 'successfullu logged in';
                     localStorage.setItem('token', data.token);
+                    emit('logged_in')
                     navigateTo('/dashboard')
                 } else {
                     status.value = 'login failed';

@@ -2,12 +2,49 @@
 const showMenu = ref(false);
 
 function hideMenu() {
+    validateToken()
     showMenu.value = false;
 };
+
+const validToken = ref(false);
+
+async function validateToken() {
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+
+    await $fetch('/api/validate', {
+        method: 'post',
+        body: {
+            token: token
+        },
+        onResponse(response) {
+            validToken.value = response.response._data.valid;
+        }
+    })
+}
+
+function logout() {
+    localStorage.removeItem('token');
+    showMenu.value = false;
+    validToken.value = false;
+}
+
+onMounted(() => {
+    validateToken()
+})
+
+const logged_count = inject('logged_count');
+watch(logged_count, validateToken);
 </script>
 
 <template>
-    <div class="menu-list" :class="{ shown: showMenu }">
+    <v-btn id="menu-activator" class="menu-button">
+        <img class="menu-icon" ref="svg" src="~/assets/svg/menu.svg" alt="menu icon">
+        <p class="menu-text">Menu</p>
+    </v-btn>
+
+    <v-menu activator="#menu-activator" class="menu-list" :class="{ 'menu-large': validToken }">
 
         <nuxt-link @click="hideMenu" class="link" to="/">
             <img class="icon" src="~/assets/svg/home.svg" alt="home svg">
@@ -19,17 +56,22 @@ function hideMenu() {
             <p>Seznam lektorů</p>
         </nuxt-link>
 
-        <nuxt-link @click="hideMenu" class="link" to="/login">
+        <nuxt-link v-if="validToken" @click="hideMenu" class="link" to="/dashboard">
+            <img class="icon" src="~/assets/svg/time.svg" alt="home svg">
+            <p>Moje rezervace</p>
+        </nuxt-link>
+
+        <nuxt-link v-else @click="hideMenu" class="link" to="/login">
             <img class="icon" src="~/assets/svg/lecturer_login.svg" alt="home svg">
             <p>Přihlášení pro lektory</p>
         </nuxt-link>
 
-    </div>
+        <nuxt-link v-if="validToken" @click="logout" class="link" to="/">
+            <img class="icon" src="~/assets/svg/logout.svg" alt="home svg">
+            <p>Odhlásit se</p>
+        </nuxt-link>
 
-    <div class="menu-button" @click="showMenu = !showMenu">
-        <img class="menu-icon" ref="svg" src="~/assets/svg/menu.svg" alt="menu icon">
-        <p class="menu-text">Menu</p>
-    </div>
+    </v-menu>
 </template>
 
 <style scoped>
@@ -55,28 +97,35 @@ img {
 .menu-button {
     cursor: pointer;
     width: 10vw;
-    height: 5.5vh;
+    height: 5.5vh !important;
     position: absolute;
     left: 1.5vw;
     margin: 0.5vh;
+    box-shadow: none;
+    background-color: transparent;
 }
 
 .menu-list {
     position: absolute;
-    top: 6.5vh;
+    top: 21.5vh;
+    transform: translateX(-5vw);
 
-    width: 20vw;
-    height: auto;
+    width: 26vw;
+    height: 27vh;
 
     background-color: var(--white);
     box-shadow: 1px 1px 3px var(--jet);
 
-    display: none;
+    display: grid;
     grid-template-columns: 1fr;
 }
 
-.shown {
-    display: grid;
+.menu-list * {
+    transform: translateX(-1vw);
+}
+
+.menu-large {
+    height: 35vh !important;
 }
 
 .link {
@@ -103,8 +152,10 @@ img {
 .menu-list p {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-45%);
     left: 3vw;
+
+    width: 15vw;
 
     font-size: 1.4rem;
 }

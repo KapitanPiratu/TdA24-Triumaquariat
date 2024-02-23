@@ -3,12 +3,13 @@ const props = defineProps(['lecturer']);
 
 const reservationDialog = useModel(false);
 
+//inputs
 const name = useModel('');
 const email = useModel('');
 const comment = useModel('');
-const time = useModel(null);
 const place = useModel('');
 
+//date
 const menu = useModel(false);
 
 const date = useModel(null);
@@ -17,6 +18,38 @@ function formatDate() {
     formatedDate.value = date.value.toLocaleDateString('cs-CZ');
 }
 
+//times
+const time_start = useModel(null);
+const time_end = useModel(null);
+
+const timesList = ref(['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']);
+const timesList2 = ref(timesList.value);
+
+watch(time_start, updateTimesList);
+
+function updateTimesList() {
+    let list = JSON.parse(JSON.stringify(timesList.value));
+
+    const index = list.indexOf(time_start.value);
+
+    if (index !== -1) {
+        list.splice(0, index + 1)
+
+        timesList2.value = list;
+
+        if (!timesList2.value.includes(time_end.value)) {
+            time_end.value = null;
+        }
+    }
+}
+
+const timesListForStart = computed(() => {
+    let list = JSON.parse(JSON.stringify(timesList.value));
+    list.pop();
+    return list;
+})
+
+//tags
 const tagsDialog = useModel(false);
 const tagsSelected = ref([]);
 
@@ -35,21 +68,32 @@ function removeTag(name) {
     tagsSelected.value = list;
 }
 
-async function postReservation() {
-    await $fetch(`/api/reservation`, {
-        method: 'post',
-        body: {
-            name: name.value,
-            email: email.value,
-            date: formatedDate.value,
-            time_from: time.value,
-            time_to: 'disabled',
-            place: place.value,
-            comment: comment.value,
-            tags: tagsSelected.value,
-            lecturer_uuid: props.lecturer.uuid
-        }
-    })
+const rules = [
+    value => !!value || false
+]
+
+const form = ref(null);
+
+async function postReservation(e) {
+    e.preventDefault();
+
+    const { valid } = await form.value.validate();
+    if (valid) {
+        await $fetch(`/api/reservation`, {
+            method: 'post',
+            body: {
+                name: name.value,
+                email: email.value,
+                date: formatedDate.value,
+                time_from: time_start.value,
+                time_to: time_end.value,
+                place: place.value,
+                comment: comment.value || '',
+                tags: tagsSelected.value,
+                lecturer_uuid: props.lecturer.uuid
+            }
+        })
+    }
 }
 </script>
 
@@ -65,23 +109,19 @@ async function postReservation() {
                 <p>Rezervace lektora</p>
             </v-card-title>
 
-            <v-card-item>
-                <v-form class="form">
+            <v-card-item class="card-item">
+                <v-form class="form" ref="form" @submit.prevent="postReservation">
 
                     <div class="form-container">
-                        <v-text-field v-model="name" class="dialog-input" label="Jméno"></v-text-field>
-                        <v-text-field v-model="email" class="dialog-input" label="Email"></v-text-field>
+                        <v-text-field v-model="name" :rules="rules" class="dialog-input" label="Jméno"></v-text-field>
+                        <v-text-field v-model="email" :rules="rules" class="dialog-input" label="Email"></v-text-field>
 
                         <v-textarea v-model="comment" class="dialog-input" label="Komentář (dobrovolný)"></v-textarea>
                     </div>
 
                     <div class="form-container">
-                        <v-select class="dialog-input" label="Vyber čas" v-model="time"
-                            :items="['8:00 - 9:00', '9:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00']">
-                        </v-select>
-
-                        <v-text-field class="dialog-input" v-model="formatedDate" label="Vyber datum" readonly
-                            @click="menu = !menu"></v-text-field>
+                        <v-text-field class="dialog-input date-input" v-model="formatedDate" :rules="rules"
+                            label="Vyber datum" readonly @click="menu = !menu"></v-text-field>
 
                         <v-dialog v-model="menu" class="dialog">
                             <v-card class="date-card">
@@ -90,40 +130,45 @@ async function postReservation() {
                             </v-card>
                         </v-dialog>
 
-                        <v-select class="dialog-input" label="Vyber místo" v-model="place"
-                            :items="['Online', 'Offline (lektorova lokace)']"></v-select>
+                        <div class="times-container">
+                            <v-select class="dialog-input time-input" :rules="rules" label="Vyber čas" v-model="time_start"
+                                :items="timesListForStart">
+                            </v-select>
 
-                        <div>
-                            <p class="tags-button" @click="tagsDialog = true">Vybrat štítky</p>
+                            <p>—</p>
 
-                            <v-dialog v-model="tagsDialog" class="dialog">
-
-                                <v-card class="tags-card">
-
-                                    <v-card-title>
-                                        <p>Vyber štítky</p>
-                                    </v-card-title>
-
-                                    <div class="tags-container" v-if="tagsSelected.length">
-                                        <div class="tag selected" @click="removeTag(tag.name)"
-                                            @mouseenter="tag.mouseover = true" @mouseleave="tag.mouseover = false"
-                                            v-for="tag in tagsSelected">
-                                            <p>{{ tag.name }} <span v-if="tag.mouseover">X</span></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="tags-container">
-                                        <div class="tag" @click="addTag(tag.name)" v-for="tag in props.lecturer.tags">
-                                            <p>{{ tag.name }}</p>
-                                        </div>
-                                    </div>
-                                </v-card>
-                            </v-dialog>
+                            <v-select class="dialog-input time-input" :rules="rules" label="Vyber čas" v-model="time_end"
+                                :items="timesList2">
+                            </v-select>
                         </div>
+
+                        <v-select class="dialog-input" :rules="rules" label="Vyber místo" v-model="place"
+                            :items="['Online', 'Offline (lektorova lokace)']"></v-select>
 
                     </div>
 
-                    <v-btn class="dialog-btn" @click="postReservation">Odeslat</v-btn>
+                    <div class="tags-card form-container">
+
+                        <v-card-title class="tags-title">
+                            <p>Vyber štítky</p>
+                        </v-card-title>
+
+                        <div class="tags-container" v-if="tagsSelected.length">
+                            <div class="tag selected" @click="removeTag(tag.name)" @mouseenter="tag.mouseover = true"
+                                @mouseleave="tag.mouseover = false" v-for="tag in tagsSelected">
+                                <p>{{ tag.name }} <span v-if="tag.mouseover">X</span></p>
+                            </div>
+                        </div>
+                        <br v-if="tagsSelected.length">
+                        <div class="tags-container">
+                            <div class="tag" @click="addTag(tag.name)" v-for="tag in props.lecturer.tags">
+                                <p>{{ tag.name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="dialog-btn" type="submit">
+                        <p>Odeslat</p>
+                    </button>
                 </v-form>
             </v-card-item>
 
@@ -146,6 +191,8 @@ async function postReservation() {
 
     transition-duration: 0.3s;
     opacity: 95%;
+
+    cursor: pointer;
 }
 
 .button-text {
@@ -191,8 +238,10 @@ async function postReservation() {
 
 .dialog-title {
     position: relative;
-    top: 0;
-    left: 0;
+    top: 2vh;
+    left: 1vw;
+
+    font-size: 1.6rem;
 
     margin-bottom: 5vh;
 }
@@ -206,6 +255,10 @@ async function postReservation() {
 
 .form-container {
     flex-grow: 1;
+    position: relative;
+    width: 9vw;
+    margin: 1vw;
+    margin-top: 0;
 }
 
 .date-picker {
@@ -220,14 +273,24 @@ async function postReservation() {
 }
 
 .dialog-btn {
-    position: absolute;
-    top: 3vh;
-    right: 3vw;
+    position: fixed;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
 
-    width: 15vw;
-    height: 6vh !important;
+    width: 30vw;
+    height: 7vh !important;
 
-    background-color: var(--sky-blue);
+    background-color: var(--sunglow);
+    border-radius: 4px;
+    transition-duration: 0.5s;
+
+    font-size: 1.05rem;
+}
+
+.dialog-btn:hover {
+    filter: brightness(100%);
+    box-shadow: 10px 10px var(--prussian-blue);
 }
 
 .tags-button {
@@ -237,16 +300,7 @@ async function postReservation() {
 }
 
 .tags-card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    width: 35vw;
-    min-height: 80vh;
-
-    background-color: var(--white);
-    box-shadow: 1px 1px 3px var(--jet);
+    width: 10vw;
 }
 
 .tags-container {
@@ -280,5 +334,32 @@ async function postReservation() {
 .selected:hover {
     filter: brightness(97%);
     padding-left: 1.2vh;
+}
+
+.tags-title {
+    margin-left: 0.7vw;
+    margin-top: 1vh;
+}
+
+.card-item {
+    padding: 0;
+}
+
+.times-container {
+    display: inline-flex;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.time-input {
+    width: 9.1vw;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.times-container p {
+    font-size: 1.2rem;
+    margin: 1vh;
 }
 </style>
