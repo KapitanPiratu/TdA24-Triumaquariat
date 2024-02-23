@@ -2,15 +2,20 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  color: var(--white)
+  color: var(--prussian-blue)
+}
+
+body {
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: Open Sans !important;
 }
 
 h1,
 h2,
 h3 {
-  font-family: Lalezar;
-}
-
-p {
-  font-family: Open Sans;
+  font-family: Lalezar !important;
 }
