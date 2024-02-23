@@ -25,7 +25,7 @@ async function login(e) {
                     localStorage.setItem('token', data.token);
                     navigateTo('/dashboard')
                 } else {
-                    status.value = 'login failed';
+                    status.value = 'Někde nastala chyba, máš zadané údaje?';
                 }
             }
         }
