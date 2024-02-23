@@ -19,7 +19,7 @@ async function login(e) {
         <h1>Login</h1>
         <form>
             <input v-model="username" type="text"> <br>
-            <input v-model="password" type="text"> <br>
+            <input v-model="password" type="password"> <br>
             <button @click="login">Potvrdit</button>
         </form>
     </div>
