@@ -52,17 +52,25 @@ const timesListForStart = computed(() => {
 //tags
 const tagsDialog = useModel(false);
 const tagsSelected = ref([]);
+const tagsDisplay = ref(props.lecturer.tags);
 
 function addTag(name) {
     if (!tagsSelected.value.find(tag => tag.name == name)) {
         let list = tagsSelected.value;
         list.push({ name: name });
-
         tagsSelected.value = list;
+
+        let displayList = tagsDisplay.value;
+        displayList = displayList.filter(el => el.name != name);
+        tagsDisplay.value = displayList;
     }
 }
 
 function removeTag(name) {
+    let displayList = tagsDisplay.value;
+    displayList.unshift({ name: name });
+    tagsDisplay.value = displayList;
+
     let list = tagsSelected.value;
     list = list.filter(el => el.name != name);
     tagsSelected.value = list;
@@ -164,15 +172,14 @@ async function postReservation(e) {
 
                             <div class="tags-container" v-if="tagsSelected.length">
                                 <p class="tags-label">Vybrané:</p>
-                                <div class="tag selected" @click="removeTag(tag.name)" @mouseenter="tag.mouseover = true"
-                                    @mouseleave="tag.mouseover = false" v-for="tag in tagsSelected">
-                                    <p>{{ tag.name }} <span v-if="tag.mouseover">X</span></p>
+                                <div class="tag selected" @click="removeTag(tag.name)" v-for="tag in tagsSelected">
+                                    <p>{{ tag.name }}</p>
                                 </div>
                             </div>
                             <br v-if="tagsSelected.length">
                             <div class="tags-container">
                                 <p class="tags-label">Dostupné:</p>
-                                <div class="tag" @click="addTag(tag.name)" v-for="tag in props.lecturer.tags">
+                                <div class="tag" @click="addTag(tag.name)" v-for="tag in tagsDisplay">
                                     <p>{{ tag.name }}</p>
                                 </div>
                             </div>
@@ -354,15 +361,19 @@ async function postReservation(e) {
     position: relative;
     top: 50%;
     transform: translateY(-52%);
+    user-select: none;
 }
 
 .selected p span {
     margin-left: 0.6vw;
 }
 
-.selected:hover {
-    filter: brightness(97%);
+.selected {
     padding-left: 1.2vh;
+}
+
+.selected:hover {
+    text-decoration: line-through;
 }
 
 .tags-title {
@@ -425,7 +436,7 @@ async function postReservation(e) {
 
 .spinner {
     position: absolute;
-    top: 40%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
