@@ -27,7 +27,7 @@ async function login() {
                     emit('logged_in')
                     navigateTo('/dashboard')
                 } else {
-                    status.value = 'login failed';
+                    status.value = 'Někde nastala chyba, máš zadané údaje?';
                 }
             }
         }
