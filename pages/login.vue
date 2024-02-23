@@ -2,13 +2,32 @@
 const username = ref('');
 const password = ref('');
 
+const status = ref('');
+
 async function login(e) {
     e.preventDefault();
-    await $fetch('/api/login', {
+    const response = await $fetch('/api/login', {
         method: 'post',
         body: {
             username: username.value,
             password: password.value
+        },
+        onResponse(response) {
+            console.log(response.response.status)
+
+            if (response.response.status == 400 || response.response.status == 401 || response.response.status == 404) {
+                status.value = 'Wrong username or password';
+            } else {
+
+                const data = response.response._data;
+                if (data.token) {
+                    status.value = 'successfullu logged in';
+                    localStorage.setItem('token', data.token);
+                    navigateTo('/dashboard')
+                } else {
+                    status.value = 'login failed';
+                }
+            }
         }
     })
 }
@@ -21,6 +40,7 @@ async function login(e) {
             <input v-model="username" type="text"> <br>
             <input v-model="password" type="password"> <br>
             <button @click="login">Potvrdit</button>
+            <p class="status">{{ status }}</p>
         </form>
     </div>
 </template>
@@ -33,7 +53,8 @@ async function login(e) {
     padding: 5vh;
 }
 
-input {
+input,
+button {
     color: #000;
 }
 </style>
