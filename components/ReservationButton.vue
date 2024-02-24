@@ -2,6 +2,8 @@
 const props = defineProps(['lecturer']);
 const formDisabled = ref(false);
 const reservationDialog = useModel(false);
+const dialogSnackbar = useModel(true);
+const snackbarMessage = ref('')
 
 //inputs
 const name = useModel('');
@@ -50,7 +52,6 @@ const timesListForStart = computed(() => {
 })
 
 //tags
-const tagsDialog = useModel(false);
 const tagsSelected = ref([]);
 const tagsDisplay = ref(props.lecturer.tags);
 
@@ -82,9 +83,7 @@ const rules = [
 
 const form = ref(null);
 
-async function postReservation(e) {
-    e.preventDefault();
-
+async function postReservation() {
 
     const { valid } = await form.value.validate();
     if (valid) {
@@ -106,6 +105,10 @@ async function postReservation(e) {
                 if (response.response.status == 200) {
                     form.value.reset();
                     formDisabled.value = false;
+
+                    snackbarMessage.value = 'Rezervace úspěšně vytvořena';
+                    dialogSnackbar.value = true;
+                    reservationDialog.value = false;
                 } else {
                     alert('Something went wrong');
                 }
@@ -196,6 +199,8 @@ async function postReservation(e) {
 
         </v-card>
     </v-dialog>
+    <v-snackbar class="snackbar" v-model="dialogSnackbar" location="top" :timeout="3000" color="#74c7d3">{{ snackbarMessage
+    }}</v-snackbar>
 </template>
 
 <style scoped>
