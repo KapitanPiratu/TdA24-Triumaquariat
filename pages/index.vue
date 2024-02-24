@@ -2,8 +2,9 @@
 const lecturers = ref([]);
 
 async function getLecturers() {
-    await $fetch('/api/lecturers', {
+    await useHttp('/api/lecturers', {
         method: 'get',
+        headers: useRequestHeaders(['authorization']),
         onResponse(response) {
             lecturers.value = response.response._data || [];
         }

@@ -7,7 +7,7 @@ const password = ref('');
 const status = ref('');
 
 async function login() {
-    const response = await $fetch('/api/login', {
+    const response = await useHttp('/api/login', {
         method: 'post',
         body: {
             username: username.value,
@@ -27,7 +27,7 @@ async function login() {
                     emit('logged_in')
                     navigateTo('/dashboard')
                 } else {
-                    status.value = 'login failed';
+                    status.value = 'Někde nastala chyba, máš zadané údaje?';
                 }
             }
         }

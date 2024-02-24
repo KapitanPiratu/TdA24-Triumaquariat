@@ -4,7 +4,7 @@ const validToken = ref(false);
 async function validateToken() {
     const token = localStorage.getItem('token');
 
-    await $fetch('/api/validate', {
+    await useHttp('/api/validate', {
         method: 'post',
         body: {
             token: token

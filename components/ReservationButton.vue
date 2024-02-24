@@ -3,7 +3,7 @@ const props = defineProps(['lecturer']);
 const formDisabled = ref(false);
 const reservationDialog = useModel(false);
 const dialogSnackbar = useModel(true);
-const snackbarMessage = ref('')
+const snackbarMessage = ref('');
 
 //inputs
 const name = useModel('');
@@ -88,7 +88,7 @@ async function postReservation() {
     const { valid } = await form.value.validate();
     if (valid) {
         formDisabled.value = true;
-        await $fetch(`/api/reservation`, {
+        await useHttp(`/api/reservation`, {
             method: 'post',
             body: {
                 name: name.value,

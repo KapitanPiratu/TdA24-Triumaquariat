@@ -36,5 +36,13 @@ export default defineNuxtConfig({
         transformAssetUrls
       }
     }
+  },
+  runtimeConfig: {
+    public: {
+      auth: {
+        username: 'TdA',
+        password: 'd8Ef6!dGG_pv'
+      }
+    }
   }
 })
