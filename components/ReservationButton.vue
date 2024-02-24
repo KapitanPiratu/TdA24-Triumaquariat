@@ -79,7 +79,7 @@ async function postReservation(e) {
 
     const { valid } = await form.value.validate();
     if (valid) {
-        await $fetch(`/api/reservation`, {
+        await useHttp(`/api/reservation`, {
             method: 'post',
             body: {
                 name: name.value,

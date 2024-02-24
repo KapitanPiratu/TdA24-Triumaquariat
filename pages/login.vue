@@ -7,7 +7,7 @@ const password = ref('');
 const status = ref('');
 
 async function login() {
-    const response = await $fetch('/api/login', {
+    const response = await useHttp('/api/login', {
         method: 'post',
         body: {
             username: username.value,

@@ -29,7 +29,7 @@ const lecturers = ref([]);
 const route = useRoute();
 
 async function getLecturers() {
-    await $fetch(`/api/lecturers/${route.params.uuid}`, {
+    await useHttp(`/api/lecturers/${route.params.uuid}`, {
         method: 'get',
         onResponse(response) {
             lecturers.value = response.response._data || {};
