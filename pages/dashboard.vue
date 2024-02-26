@@ -57,10 +57,10 @@ onMounted(() => {
             <div class="DB-main-title">Správa mých rezervací</div><!-- DB means dashboard -->
             <div class="DB-biggest-area">
                 <div class="DB-BA-first-line"><!-- BA means biggest-area -->
-                    <div class="DB-BA-FL-date-from">Datum od</div> <!-- FL means first-line -->
-                    <div class="DB-BA-FL-date-to">Datum do</div>
-                    <button class="DB-BA-FL-delete-button">Odstranit</button>
-                    <button class="DB-BA-FL-confirm-button">Potvrdit</button>
+                    <div class="DB-BA-FL-date-from">Datum od:</div> <!-- FL means first-line -->
+                    <div class="DB-BA-FL-date-to">Datum do:</div>
+                    <button class="DB-BA-FL-delete-button">ODMÍTNOUT</button>
+                    <button class="DB-BA-FL-confirm-button">POTVRDIT</button>
                 </div>
                 <div class="DB-BA-second-line">
                     <div class="DB-BA-SL-date">Datum</div> <!-- SL means second-line -->
@@ -70,6 +70,15 @@ onMounted(() => {
                     <div class="DB-BA-SL-names">Jméno a Příjmení</div>
                     <div class="DB-BA-SL-email">E-mail</div>
                     <div class="DB-BA-SL-comment">Akce</div>
+                </div>
+                <div class="DB-BA-third-line">
+                    desetkrát zobrazená komponenta
+                </div>
+                <div class="DB-BA-fourth-line">
+                    <div class="DB-RecordsOnPage-setting">Počet na stránku 10</div>
+                    <div class="DB-page-number-index"> 1-x z x</div>
+                    <button class="DB-records-return-button"> &lt </button>
+                    <button class="DB-records-next-button">></button>
                 </div>
             </div>
         </div>
@@ -114,15 +123,27 @@ onMounted(() => {
 
 .DB-BA-FL-delete-button {
     display: inline-block;
-    margin-left: 55vw;
+    margin-left: 50vw;
     background-color: var(--prussian-blue);
     color: var(--white);
+    font-size: 1.5vh;
+    border-radius: 1vh;
+    padding-top: 1.2vh;
+    padding-bottom: 1.2vh;
+    padding-left: 3vh;
+    padding-right: 3vh;
 }
 
 .DB-BA-FL-confirm-button {
     display: inline-block;
     margin-left: 1vw;
     background-color: var(--sunglow);
+    font-size: 1.5vh;
+    border-radius: 1vh;
+    padding-top: 1.2vh;
+    padding-bottom: 1.2vh;
+    padding-left: 2.7vh;
+    padding-right: 2.7vh;
 }
 
 .DB-BA-second-line {
@@ -162,5 +183,40 @@ onMounted(() => {
 .DB-BA-SL-comment {
     display: inline-block;
     margin-left: 8vw;
+}
+
+.DB-BA-third-line {
+    margin-top: 2vh;
+}
+
+.DB-BA-fourth-line {
+    display: inline-block;
+    margin-top: 2vh;
+}
+
+.DB-RecordsOnPage-setting {
+    display: inline-block;
+    margin-left: 57vw;
+}
+
+.DB-page-number-index {
+    display: inline-block;
+    margin-left: 5vw
+}
+
+.DB-records-return-button {
+    display: inline-block;
+    margin-left: 1.5vw;
+    font-size: 2.5vh;
+    border: none;
+    background-color: var(--white);
+}
+
+.DB-records-next-button {
+    display: inline-block;
+    margin-left: 1.5vw;
+    font-size: 2.5vh;
+    border: none;
+    background-color: var(--white);
 }
 </style>
