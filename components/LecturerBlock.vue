@@ -45,11 +45,13 @@ onMounted(() => {
                     <p class="price_per_hour_paragraph">{{ props.lecturer.price_per_hour }} Kč/h</p>
                 </div>
 
-                <div v-if="props.lecturer.contact" class="numbers_container">
+                <div v-if="props.lecturer.contact" class="numbers-container">
                     <h2>Kontakt:</h2>
-                    <p class="email_paragraph" v-for="email in props.lecturer.contact.emails">{{ email }}</p>
-                    <p class="telephone_numbers_paragraph" v-for="number in props.lecturer.contact.telephone_numbers">
-                        {{ number }}</p>
+                    <a class="email_paragraph" v-for="email in props.lecturer.contact.emails" :href="'mailto:' + email">{{
+                        email }} </a>
+                    <a class="telephone_numbers_paragraph" v-for="number in props.lecturer.contact.telephone_numbers"
+                        :href="'tel:' + number">
+                        {{ number }}</a>
                 </div>
 
             </div>
@@ -147,5 +149,11 @@ onMounted(() => {
 .tags {
     margin: 1vh;
     max-height: none;
+}
+
+.numbers-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 </style>
