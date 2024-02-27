@@ -17,7 +17,7 @@ async function login() {
             console.log(response.response.status)
 
             if (response.response.status == 400 || response.response.status == 401 || response.response.status == 404) {
-                status.value = 'Wrong username or password';
+                status.value = 'Někde nastala chyba, máš zadané údaje?';
             } else {
 
                 const data = response.response._data;
@@ -27,24 +27,40 @@ async function login() {
                     emit('logged_in')
                     navigateTo('/dashboard')
                 } else {
-                    status.value = 'Někde nastala chyba, máš zadané údaje?';
+                    status.value = 'Špatné jméno nebo heslo.';
                 }
             }
         }
     })
 }
+const dialogModel = useModel(false);
 </script>
 
 <template>
     <div class="login-container">
-        <h1>Login</h1>
+        <h1>Přihlášení</h1>
         <form>
-            <v-text-field class="input" v-model="username" type="text" label="username"> </v-text-field>
-            <v-text-field class="input" v-model="password" type="text" label="password"> </v-text-field>
+            <v-text-field class="inputuser" v-model="username" type="text" label="Přihlašovací jméno"> </v-text-field>
+            <v-text-field class="inputpass" v-model="password" type="password" label="Heslo"> </v-text-field>
             <p class="status">{{ status }}</p>
-            <v-btn class="button" @click="login">Potvrdit</v-btn>
+            <v-btn class="button" @click="login">Přihlásit se</v-btn>
+            <button class="problemek" @click="dialogModel = true">Problémy s přihlášením?</button>
         </form>
     </div>
+
+    <v-dialog v-model="dialogModel">
+        <v-card title="Problémy s přihlášením">
+            <v-card-text>
+                Nejprve prosím zkuste proces zopakovat, jestliže problémy přetrvávají, kontaktujete <a
+                    href="mailto:triumaquariat@gmail.com">administrátory</a>, popřípadě přímo <a
+                    href="mailto:jknapovsky@gmail.com">TdAgency</a>.
+            </v-card-text>
+
+            <v-card-actions>
+                <v-btn text="Zavřít" @click="isActive.value = false"></v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </template>
 
 <style scoped>
@@ -61,7 +77,7 @@ async function login() {
 
 .button {
     position: relative;
-    left: 50%;
+    left: 20%;
     transform: translateX(-50%);
 
     width: 10vw !important;
@@ -73,7 +89,16 @@ async function login() {
     background-color: var(--sunglow);
 }
 
-.input {
+.inputuser {
     width: 25vw;
+}
+
+.inputpass {
+    width: 25vw;
+}
+
+.problemek {
+    position: relative;
+    left: 18%;
 }
 </style>
