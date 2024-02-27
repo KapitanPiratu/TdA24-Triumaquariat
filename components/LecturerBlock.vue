@@ -32,7 +32,7 @@ onMounted(() => {
             <p class="bio" style="text-align: left;" v-html="props.lecturer.bio"></p>
         </div>
 
-        <div v-if="props.display.includes('contact')">
+        <div v-if="props.display.includes('contact')" class="contact-wrapper">
             <div class="contact-container">
 
                 <div>
@@ -47,16 +47,13 @@ onMounted(() => {
 
                 <div v-if="props.lecturer.contact" class="numbers_container">
                     <h2>Kontakt:</h2>
-                    <p class="telephone_numbers_paragraph" v-for="number in props.lecturer.contact.telephone_numbers">{{
-                        number
-                    }}</p>
-                </div>
-
-                <div v-if="props.lecturer.contact" class="emails_paragraph">
                     <p class="email_paragraph" v-for="email in props.lecturer.contact.emails">{{ email }}</p>
+                    <p class="telephone_numbers_paragraph" v-for="number in props.lecturer.contact.telephone_numbers">
+                        {{ number }}</p>
                 </div>
 
             </div>
+            <ReservationButton :lecturer="lecturer" />
         </div>
     </div>
 </template>
@@ -108,7 +105,7 @@ onMounted(() => {
 }
 
 .contact-container {
-    height: 70vh;
+    height: 50vh;
     width: 23vw;
 
     display: flex;
@@ -116,6 +113,13 @@ onMounted(() => {
     justify-content: space-between;
 
     text-align: center;
+}
+
+.contact-wrapper {
+    height: 70vh;
+    width: 23vw;
+
+    position: relative;
 }
 
 .contact-container * {

@@ -119,15 +119,29 @@ async function postReservation() {
         })
     }
 }
+
+const moveDown = ref(false);
+
+function showDialog() {
+    const body = document.querySelector('html');
+    console.log(body.scrollTop)
+    if (body.scrollTop == 0) {
+        moveDown.value = true;
+    } else {
+        moveDown.value = false;
+    }
+
+    reservationDialog.value = true;
+}
 </script>
 
 <template>
-    <div class="reservation-button" @click="reservationDialog = !reservationDialog">
+    <div class="reservation-button" @click="showDialog">
         <p class="button-text">Rezervovat lektora</p>
     </div>
 
     <v-dialog v-model="reservationDialog" class="dialog">
-        <v-card class="dialog-card">
+        <v-card class="dialog-card" :class="{ 'move-down': moveDown }">
 
             <v-card-title class="dialog-title">
                 <p>Rezervace lektora</p>
@@ -252,6 +266,10 @@ async function postReservation() {
     box-shadow: 1px 1px 3px var(--jet);
 
     transform: translateY(-2vh);
+}
+
+.move-down {
+    transform: translateY(8vh);
 }
 
 .date-card {
