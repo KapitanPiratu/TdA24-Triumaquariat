@@ -165,7 +165,7 @@ async function postReservation() {
                         </div>
 
                         <v-select class="dialog-input place-input" :rules="rules" label="Vyber místo" v-model="place"
-                            :items="['Online', 'Offline (lektorova lokace)']"></v-select>
+                            :items="['Online', lecturer.location + ' (lektorova lokace)']"></v-select>
 
                         <div class="tags-card" :class="{ 'tags-disabled': formDisabled }">
 
