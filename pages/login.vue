@@ -57,7 +57,7 @@ const dialogModel = useModel(false);
             </v-card-text>
 
             <v-card-actions>
-                <v-btn text="Zavřít" @click="isActive.value = false"></v-btn>
+                <v-btn text="Zavřít" @click="dialogModel = false"></v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
