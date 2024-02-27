@@ -33,15 +33,17 @@ async function login() {
         }
     })
 }
-const dialogModel = useModel(false);
+const dialogModel = ref(false);
 </script>
 
 <template>
     <div class="login-container">
         <h1>Přihlášení</h1>
         <form>
-            <v-text-field class="inputuser" v-model="username" type="text" label="Přihlašovací jméno"> </v-text-field>
-            <v-text-field class="inputpass" v-model="password" type="password" label="Heslo"> </v-text-field>
+            <v-text-field class="inputuser" v-model="username" type="text" label="Přihlašovací jméno" bg-color="white">
+            </v-text-field>
+            <v-text-field class="inputpass" v-model="password" type="password" label="Heslo" bg-color="white">
+            </v-text-field>
             <p class="status">{{ status }}</p>
             <v-btn class="button" @click="login">Přihlásit se</v-btn>
             <button class="problemek" @click="dialogModel = true">Problémy s přihlášením?</button>
@@ -49,7 +51,7 @@ const dialogModel = useModel(false);
     </div>
 
     <v-dialog v-model="dialogModel">
-        <v-card title="Problémy s přihlášením">
+        <v-card title="Problémy s přihlášením?">
             <v-card-text>
                 Nejprve prosím zkuste proces zopakovat, jestliže problémy přetrvávají, kontaktujete <a
                     href="mailto:triumaquariat@gmail.com">administrátory</a>, popřípadě přímo <a
