@@ -33,7 +33,8 @@ async function login() {
         }
     })
 }
-const dialogModel = useModel(false);
+
+const dialogModel = ref(false);
 </script>
 
 <template>
@@ -44,7 +45,7 @@ const dialogModel = useModel(false);
             <v-text-field class="inputpass" v-model="password" type="password" label="Heslo"> </v-text-field>
             <p class="status">{{ status }}</p>
             <v-btn class="button" @click="login">Přihlásit se</v-btn>
-            <button class="problemek" @click="dialogModel = true">Problémy s přihlášením?</button>
+            <p class="problemek" @click="dialogModel = !dialogModel">Problémy s přihlášením?</p>
         </form>
     </div>
 
@@ -100,5 +101,6 @@ const dialogModel = useModel(false);
 .problemek {
     position: relative;
     left: 18%;
+    cursor: pointer;
 }
 </style>
