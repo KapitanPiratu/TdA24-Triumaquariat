@@ -20,6 +20,9 @@ function formatDate() {
     formatedDate.value = date.value.toLocaleDateString('cs-CZ');
 }
 
+const today = ref(new Date());
+today.value.toISOString()
+
 //times
 const time_start = useModel(null);
 const time_end = useModel(null);
@@ -148,7 +151,7 @@ async function postReservation() {
 
                             <v-dialog v-model="menu" class="dialog">
                                 <v-card class="date-card">
-                                    <v-date-picker @click="formatDate()" v-model="date" v-if="menu" type="time"
+                                    <v-date-picker @click="formatDate()" v-model="date" v-if="menu" :min="today" type="time"
                                         class="date-picker" color="#ddd"></v-date-picker>
                                 </v-card>
                             </v-dialog>
@@ -257,8 +260,8 @@ async function postReservation() {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: 360px;
-    height: 530px;
+    min-width: 360px;
+    min-height: 530px;
 
     background-color: transparent;
 }
