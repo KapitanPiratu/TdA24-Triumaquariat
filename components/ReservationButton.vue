@@ -80,6 +80,12 @@ function removeTag(name) {
     tagsSelected.value = list;
 }
 
+//place
+const placeItems = ref([
+    { title: 'Online', value: 'Online' },
+    { title: `${props.lecturer.location} (lektorova lokace)`, value: `${props.lecturer.location}` }
+]);
+
 const rules = [
     value => !!value || false
 ]
@@ -182,7 +188,7 @@ function showDialog() {
                         </div>
 
                         <v-select class="dialog-input place-input" :rules="rules" label="Vyber místo" v-model="place"
-                            :items="['Online', lecturer.location + ' (lektorova lokace)']"></v-select>
+                            :items="placeItems"></v-select>
 
                         <div class="tags-card" :class="{ 'tags-disabled': formDisabled }">
 
