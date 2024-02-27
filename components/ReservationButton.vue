@@ -125,7 +125,7 @@ const moveDown = ref(false);
 function showDialog() {
     const body = document.querySelector('html');
     console.log(body.scrollTop)
-    if (body.scrollTop == 0) {
+    if (body.scrollTop < 75) {
         moveDown.value = true;
     } else {
         moveDown.value = false;
