@@ -49,6 +49,9 @@ onMounted(() => {
     getTags();
     getLocations();
 });
+
+const tagsDialog = ref(false);
+const locationsDialog = ref(false);
 </script>
 
 <template>
@@ -75,7 +78,7 @@ onMounted(() => {
                 </div>
 
                 <div class="filter-item" v-if="locations.length > 3">
-                    <p>více lokalit ...</p>
+                    <p @click="locationsDialog = !locationsDialog" class="open-dialog">více lokalit ...</p>
                 </div>
 
                 <div class="filter-item" v-else v-for="location in locations">
@@ -93,7 +96,7 @@ onMounted(() => {
                 </div>
 
                 <div class="filter-item" v-if="tags.length > 9">
-                    <p>více štítků ...</p>
+                    <p class="open-dialog" @click="tagsDialog = !tagsDialog">více štítků ...</p>
                 </div>
 
                 <div class="filter-item" v-if="tags.length <= 9" v-for="tag in tags">
@@ -105,6 +108,28 @@ onMounted(() => {
         </div>
 
     </div>
+
+    <v-dialog v-model="tagsDialog">
+        <v-card class="dialog-card">
+            <div class="tags-container dialog-container">
+                <div class="filter-item dialog-item" v-for="tag in tags">
+                    <input @change="tagsChange" v-model="tag.selected" type="checkbox">
+                    <p>{{ tag.name }}</p>
+                </div>
+            </div>
+        </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="locationsDialog">
+        <v-card class="dialog-card">
+            <div class="tags-container dialog-container">
+                <div class="filter-item dialog-item" v-for="location in locations">
+                    <input @change="locationChange" v-model="location.selected" type="checkbox">
+                    <p>{{ location.location }}</p>
+                </div>
+            </div>
+        </v-card>
+    </v-dialog>
 </template>
 
 <style scoped>
@@ -180,5 +205,35 @@ onMounted(() => {
 
 .filter-item input {
     margin-right: 1vw;
+}
+
+.open-dialog {
+    cursor: pointer;
+}
+
+.dialog-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 39vw;
+    height: 70vh;
+}
+
+.dialog-container {
+    flex-direction: row;
+    justify-content: flex-start;
+    overflow-y: auto;
+}
+
+.dialog-item {
+    width: 8vw;
+    min-height: 15vh;
+    max-height: 15vh;
+
+    margin: 2vh;
+    margin-left: 2vw;
+    margin-right: 2vw;
 }
 </style>
