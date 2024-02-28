@@ -132,12 +132,6 @@ async function postReservation() {
 
 }
 
-function showDialog() {
-    // console.log(event)
-    reservationDialog.value = true;
-    console.log(reservationDialog)
-}
-
 const moveDown = ref(false);
 
 function showDialog() {
@@ -154,7 +148,7 @@ function showDialog() {
 </script>
 
 <template>
-    <div class="reservation-button" @click="showDialog">
+    <v-btn class="reservation-button" @click="showDialog">
         <p class="button-text">Rezervovat lektora</p>
     </v-btn>
 
