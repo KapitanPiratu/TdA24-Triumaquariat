@@ -8,7 +8,9 @@ async function getTags() {
         onResponse(response) {
             if (response.response.status == 200) {
                 tags.value = response.response._data;
-                console.log(tags.value)
+                tags.value.forEach(tag => {
+                    tag.selected = ref(false);
+                });
             }
         }
     });
@@ -18,17 +20,42 @@ async function getLocations() {
     await $fetch('/api/lecturers', {
         method: 'get',
         onResponse(response) {
-            response.response._data.forEach(el => {
+            response.response._data.forEach(lecturer => {
 
-                if (!locations.value.includes(el.location)) {
-                    locations.value.push(el.location);
+                if (!locations.value.find(el => el.location == lecturer.location)) {
+                    locations.value.push({
+                        location: lecturer.location,
+                        selected: ref(false)
+                    });
                 }
 
             })
-            console.log(locations.value)
         }
     })
 
+}
+
+const emit = defineEmits(['locationChange', 'tagsChange'])
+
+function locationChange() {
+    let locationsList = [];
+
+
+    locations.value.forEach(location => {
+        locationsList.push({
+            location: location.location,
+            selected: location.selected ? location.selected : false
+        })
+    })
+
+    console.log('LocationChange:')
+    console.log(locationsList);
+
+    emit('locationChange', locationsList);
+}
+
+function tagsChange() {
+    emit('tagsChange', tags);
 }
 
 onMounted(() => {
@@ -56,8 +83,8 @@ onMounted(() => {
             <div class="location-container">
 
                 <div class="filter-item" v-if="locations.length > 3" v-for="location in locations.slice(0, 2)">
-                    <input type="checkbox">
-                    <p>{{ location }}</p>
+                    <input @change="locationChange" v-model="location.selected" type="checkbox">
+                    <p>{{ location.location }}</p>
                 </div>
 
                 <div class="filter-item" v-if="locations.length > 3">
@@ -65,8 +92,8 @@ onMounted(() => {
                 </div>
 
                 <div class="filter-item" v-else v-for="location in locations">
-                    <input type="checkbox">
-                    <p>{{ location }}</p>
+                    <input @change="locationChange" v-model="location.selected" type="checkbox">
+                    <p>{{ location.location }}</p>
                 </div>
 
             </div>
@@ -74,7 +101,7 @@ onMounted(() => {
             <div class="tags-container">
 
                 <div class="filter-item" v-if="tags.length > 9" v-for="tag in tags.slice(0, 8)">
-                    <input type="checkbox">
+                    <input @change="tagsChange" v-model="tag.selected" type="checkbox">
                     <p>{{ tag.name }}</p>
                 </div>
 
@@ -83,7 +110,7 @@ onMounted(() => {
                 </div>
 
                 <div class="filter-item" v-if="tags.length <= 9" v-for="tag in tags">
-                    <input type="checkbox">
+                    <input @change="tagsChange" v-model="tag.selected" type="checkbox">
                     <p>{{ tag.name }}</p>
                 </div>
             </div>

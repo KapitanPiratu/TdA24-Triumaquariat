@@ -1,11 +1,13 @@
 <script setup>
 const lecturers = ref([]);
+const filteredLecturers = ref([]);
 
 async function getLecturers() {
     await $fetch('/api/lecturers', {
         method: 'get',
         onResponse(response) {
             lecturers.value = response.response._data || [];
+            filteredLecturers.value = lecturers.value;
         }
     });
 };
@@ -13,18 +15,53 @@ async function getLecturers() {
 onMounted(() => {
     getLecturers();
 })
+
+const locations = ref([]);
+const tags = ref([]);
+
+// function locationChange(newLocations) {
+//     locations.value = newLocations;
+//     console.log('New Locations:')
+//     console.log(newLocations)
+//     filter();
+// }
+
+async function filter() {
+    let list = lecturers.value;
+
+    console.log('filtering')
+
+    tags.value.forEach(tag => {
+        console.log(tag.selected)
+        if (tag.selected) list = list.filter(lecturer => {
+            return lecturer.tags.some(el => el.name == tag.name)
+        });
+    })
+
+    console.log(tags.value.length);
+
+
+    filteredLecturers.value = list;
+    console.log(filteredLecturers.value);
+}
+
+function tagsChange(newTags) {
+    tags.value = newTags.value;
+    filter();
+}
 </script>
 
 <template>
     <Welcome />
 
     <div class="layout">
-        <Filters />
+        <Filters @locationChange="locationChange" @tagsChange="tagsChange" />
 
         <div id="cards-container" class="cards-container">
-            <LecturerCard v-for="lecturer in lecturers" :lecturer="lecturer" />
+            <LecturerCard v-for="lecturer in filteredLecturers" :key="lecturer.uuid" :lecturer="lecturer" />
 
         </div>
+
         <Footer />
     </div>
 </template>
