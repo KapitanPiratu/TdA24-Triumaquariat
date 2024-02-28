@@ -20,6 +20,9 @@ function formatDate() {
     formatedDate.value = date.value.toLocaleDateString('cs-CZ');
 }
 
+const today = ref(new Date());
+today.value.toISOString()
+
 //times
 const time_start = ref(null);
 const time_end = ref(null);
@@ -77,6 +80,12 @@ function removeTag(name) {
     tagsSelected.value = list;
 }
 
+//place
+const placeItems = ref([
+    { title: 'Online', value: 'Online' },
+    { title: `${props.lecturer.location} (lektorova lokace)`, value: `${props.lecturer.location}` }
+]);
+
 const rules = [
     value => !!value || false
 ]
@@ -128,15 +137,29 @@ function showDialog() {
     reservationDialog.value = true;
     console.log(reservationDialog)
 }
+
+const moveDown = ref(false);
+
+function showDialog() {
+    const body = document.querySelector('html');
+    console.log(body.scrollTop)
+    if (body.scrollTop < 75) {
+        moveDown.value = true;
+    } else {
+        moveDown.value = false;
+    }
+
+    reservationDialog.value = true;
+}
 </script>
 
 <template>
-    <v-btn class="reservation-button" v-on:click="showDialog">
+    <div class="reservation-button" @click="showDialog">
         <p class="button-text">Rezervovat lektora</p>
     </v-btn>
 
     <v-dialog v-model="reservationDialog" class="dialog">
-        <v-card class="dialog-card">
+        <v-card class="dialog-card" :class="{ 'move-down': moveDown }">
 
             <v-card-title class="dialog-title">
                 <p>Rezervace lektora</p>
@@ -160,7 +183,7 @@ function showDialog() {
 
                             <v-dialog v-model="menu" class="dialog">
                                 <v-card class="date-card">
-                                    <v-date-picker @click="formatDate()" v-model="date" v-if="menu" type="time"
+                                    <v-date-picker @click="formatDate()" v-model="date" v-if="menu" :min="today" type="time"
                                         class="date-picker" color="#ddd"></v-date-picker>
                                 </v-card>
                             </v-dialog>
@@ -177,7 +200,7 @@ function showDialog() {
                         </div>
 
                         <v-select class="dialog-input place-input" :rules="rules" label="Vyber místo" v-model="place"
-                            :items="['Online', 'Offline (lektorova lokace)']"></v-select>
+                            :items="placeItems"></v-select>
 
                         <div class="tags-card" :class="{ 'tags-disabled': formDisabled }">
 
@@ -263,14 +286,18 @@ function showDialog() {
     transform: translateY(-2vh);
 }
 
+.move-down {
+    transform: translateY(8vh);
+}
+
 .date-card {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: 360px;
-    height: 530px;
+    min-width: 360px;
+    min-height: 530px;
 
     background-color: transparent;
 }
