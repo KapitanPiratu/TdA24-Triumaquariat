@@ -1,21 +1,21 @@
 <script setup>
 const props = defineProps(['lecturer']);
 const formDisabled = ref(false);
-const reservationDialog = useModel(false);
-const dialogSnackbar = useModel(true);
+const reservationDialog = ref(false);
+const dialogSnackbar = ref(false);
 const snackbarMessage = ref('');
 
 //inputs
-const name = useModel('');
-const email = useModel('');
-const comment = useModel('');
-const place = useModel('');
+const name = ref('');
+const email = ref('');
+const comment = ref('');
+const place = ref('');
 
 //date
-const menu = useModel(false);
+const menu = ref(false);
 
-const date = useModel(null);
-const formatedDate = useModel('');
+const date = ref(null);
+const formatedDate = ref('');
 function formatDate() {
     formatedDate.value = date.value.toLocaleDateString('cs-CZ');
 }
@@ -24,8 +24,8 @@ const today = ref(new Date());
 today.value.toISOString()
 
 //times
-const time_start = useModel(null);
-const time_end = useModel(null);
+const time_start = ref(null);
+const time_end = ref(null);
 
 const timesList = ref(['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']);
 const timesList2 = ref(timesList.value);
@@ -56,7 +56,7 @@ const timesListForStart = computed(() => {
 
 //tags
 const tagsSelected = ref([]);
-const tagsDisplay = ref(props.lecturer.tags);
+const tagsDisplay = ref(props.lecturer.tags || []);
 
 function addTag(name) {
     if (!tagsSelected.value.find(tag => tag.name == name)) {
@@ -94,36 +94,48 @@ const form = ref(null);
 
 async function postReservation() {
 
-    const { valid } = await form.value.validate();
-    if (valid) {
-        formDisabled.value = true;
-        await useHttp(`/api/reservation`, {
-            method: 'post',
-            body: {
-                name: name.value,
-                email: email.value,
-                date: formatedDate.value,
-                time_from: time_start.value,
-                time_to: time_end.value,
-                place: place.value,
-                comment: comment.value || '',
-                tags: tagsSelected.value,
-                lecturer_uuid: props.lecturer.uuid
-            },
-            onResponse(response) {
-                if (response.response.status == 200) {
-                    form.value.reset();
-                    formDisabled.value = false;
+    try {
+        const { valid } = await form.value.validate();
+        if (valid) {
+            formDisabled.value = true;
+            await useHttp(`/api/reservation`, {
+                method: 'post',
+                body: {
+                    name: name.value,
+                    email: email.value,
+                    date: formatedDate.value,
+                    time_from: time_start.value,
+                    time_to: time_end.value,
+                    place: place.value,
+                    comment: comment.value || '',
+                    tags: tagsSelected.value,
+                    lecturer_uuid: props.lecturer.uuid
+                },
+                onResponse(response) {
+                    if (response.response.status == 200) {
+                        form.value.reset();
+                        formDisabled.value = false;
 
-                    snackbarMessage.value = 'Rezervace úspěšně vytvořena';
-                    dialogSnackbar.value = true;
-                    reservationDialog.value = false;
-                } else {
-                    alert('Something went wrong');
+                        snackbarMessage.value = 'Rezervace úspěšně vytvořena';
+                        dialogSnackbar.value = true;
+                        reservationDialog.value = false;
+                    } else {
+                        alert('Something went wrong');
+                    }
                 }
-            }
-        })
+            })
+        }
+
+    } catch (error) {
+        console.error(error);
     }
+
+}
+
+function showDialog() {
+    // console.log(event)
+    reservationDialog.value = true;
+    console.log(reservationDialog)
 }
 
 const moveDown = ref(false);
@@ -144,7 +156,7 @@ function showDialog() {
 <template>
     <div class="reservation-button" @click="showDialog">
         <p class="button-text">Rezervovat lektora</p>
-    </div>
+    </v-btn>
 
     <v-dialog v-model="reservationDialog" class="dialog">
         <v-card class="dialog-card" :class="{ 'move-down': moveDown }">
