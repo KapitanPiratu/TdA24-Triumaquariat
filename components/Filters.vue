@@ -3,7 +3,7 @@ const locations = ref([]);
 const tags = ref([]);
 
 async function getTags() {
-    await $fetch('/api/tags', {
+    await useHttp('/api/tags', {
         method: 'get',
         onResponse(response) {
             if (response.response.status == 200) {
@@ -17,7 +17,7 @@ async function getTags() {
 }
 
 async function getLocations() {
-    await $fetch('/api/lecturers', {
+    await useHttp('/api/lecturers', {
         method: 'get',
         onResponse(response) {
             response.response._data.forEach(lecturer => {
