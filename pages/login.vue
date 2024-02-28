@@ -6,6 +6,8 @@ const password = ref('');
 
 const status = ref('');
 
+const snackbarMessage = ref('Někde nastala chyba, máš zadané údaje?');
+
 async function login() {
     const response = await $fetch('/api/login', {
         method: 'post',
@@ -17,7 +19,8 @@ async function login() {
             console.log(response.response.status)
 
             if (response.response.status == 400 || response.response.status == 401 || response.response.status == 404) {
-                status.value = 'Někde nastala chyba, máš zadané údaje?';
+                snackbarMessage.value = "Někde nastala chyba, máš zadané údaje?"
+                dialogSnackbar.value = true;
             } else {
 
                 const data = response.response._data;
@@ -26,8 +29,11 @@ async function login() {
                     localStorage.setItem('token', data.token);
                     emit('logged_in')
                     navigateTo('/dashboard')
+                    snackbarMessage.value = 'Přihlášení bylo úspěšné!';
+                    dialogSnackbar.value = true;
                 } else {
-                    status.value = 'Špatné jméno nebo heslo.';
+                    snackbarMessage.value = 'Špatné jméno nebo heslo.';
+                    dialogSnackbar.value = true;
                 }
             }
         }
@@ -35,6 +41,7 @@ async function login() {
 }
 
 const dialogModel = ref(false);
+const dialogSnackbar = ref(false);
 </script>
 
 <template>
@@ -64,6 +71,9 @@ const dialogModel = ref(false);
             </v-card-actions>
         </v-card>
     </v-dialog>
+
+    <v-snackbar class="snackbar" v-model="dialogSnackbar" location="top" :timeout="3000" color="#74c7d3">{{ snackbarMessage
+    }}</v-snackbar>
 </template>
 
 <style scoped>
@@ -102,7 +112,11 @@ const dialogModel = ref(false);
 
 .problemek {
     position: relative;
-    left: 18%;
+    left: 61%;
     cursor: pointer;
+}
+
+.snackbar {
+    z-index: 3005;
 }
 </style>
