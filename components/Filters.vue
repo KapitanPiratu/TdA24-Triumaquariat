@@ -1,4 +1,5 @@
 <script setup>
+const lecturers = ref([]);
 const locations = ref([]);
 const tags = ref([]);
 
@@ -20,6 +21,8 @@ async function getLocations() {
     await useHttp('/api/lecturers', {
         method: 'get',
         onResponse(response) {
+            lecturers.value = response.response._data;
+
             response.response._data.forEach(lecturer => {
 
                 if (!locations.value.find(el => el.location == lecturer.location)) {
@@ -52,6 +55,36 @@ onMounted(() => {
 
 const tagsDialog = ref(false);
 const locationsDialog = ref(false);
+
+//price slider
+const min = ref(0);
+function updateMin() {
+    let x;
+
+    lecturers.value.forEach(lecturer => {
+        if (lecturer.price_per_hour < x || !x) x = lecturer.price_per_hour;
+    })
+    min.value = x;
+}
+
+const max = ref(0);
+function updateMax() {
+    let x;
+
+    lecturers.value.forEach(lecturer => {
+        if (lecturer.price_per_hour > x || !x) x = lecturer.price_per_hour;
+    })
+    max.value = x;
+}
+
+const priceRange = ref([0, 0]);
+
+watch(lecturers, () => {
+    updateMax();
+    updateMin()
+    priceRange.value = [0, JSON.parse(JSON.stringify(max.value))]
+});
+
 </script>
 
 <template>
@@ -105,6 +138,19 @@ const locationsDialog = ref(false);
                 </div>
             </div>
 
+        </div>
+
+        <div class="price-container">
+            <v-range-slider :min="min" :max="max" v-model="priceRange" :step="5">
+                <template v-slot:prepend>
+                    <v-text-field v-model="priceRange[0]" hide-details single-line type="number" variant="outlined"
+                        density="compact" style="width: 140px"></v-text-field>
+                </template>
+                <template v-slot:append>
+                    <v-text-field v-model="priceRange[1]" hide-details single-line type="number" variant="outlined"
+                        style="width: 140px" density="compact"></v-text-field>
+                </template>
+            </v-range-slider>
         </div>
 
     </div>
