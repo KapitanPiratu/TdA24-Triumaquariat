@@ -19,13 +19,6 @@ onMounted(() => {
 const locations = ref([]);
 const tags = ref([]);
 
-// function locationChange(newLocations) {
-//     locations.value = newLocations;
-//     console.log('New Locations:')
-//     console.log(newLocations)
-//     filter();
-// }
-
 async function filter() {
     let list = lecturers.value;
 
@@ -34,12 +27,14 @@ async function filter() {
     tags.value.forEach(tag => {
         console.log(tag.selected)
         if (tag.selected) list = list.filter(lecturer => {
-            return lecturer.tags.some(el => el.name == tag.name)
+            return lecturer.tags.some(el => el.name == tag.name);
         });
     })
 
-    console.log(tags.value.length);
-
+    locations.value.forEach(location => {
+        console.log(location.selected)
+        if (location.selected) list = list.filter(lecturer => lecturer.location == location.location);
+    })
 
     filteredLecturers.value = list;
     console.log(filteredLecturers.value);
@@ -47,6 +42,11 @@ async function filter() {
 
 function tagsChange(newTags) {
     tags.value = newTags.value;
+    filter();
+}
+
+function locationChange(newLocations) {
+    locations.value = newLocations.value;
     filter();
 }
 </script>

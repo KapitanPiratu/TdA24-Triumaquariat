@@ -38,20 +38,7 @@ async function getLocations() {
 const emit = defineEmits(['locationChange', 'tagsChange'])
 
 function locationChange() {
-    let locationsList = [];
-
-
-    locations.value.forEach(location => {
-        locationsList.push({
-            location: location.location,
-            selected: location.selected ? location.selected : false
-        })
-    })
-
-    console.log('LocationChange:')
-    console.log(locationsList);
-
-    emit('locationChange', locationsList);
+    emit('locationChange', locations);
 }
 
 function tagsChange() {
