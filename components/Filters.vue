@@ -38,7 +38,7 @@ async function getLocations() {
 
 }
 
-const emit = defineEmits(['locationChange', 'tagsChange'])
+const emit = defineEmits(['locationChange', 'tagsChange', 'priceRangeChange'])
 
 function locationChange() {
     emit('locationChange', locations);
@@ -82,9 +82,14 @@ const priceRange = ref([0, 0]);
 watch(lecturers, () => {
     updateMax();
     updateMin()
-    priceRange.value = [0, JSON.parse(JSON.stringify(max.value))]
+    priceRange.value = [JSON.parse(JSON.stringify(min.value)), JSON.parse(JSON.stringify(max.value))]
 });
 
+function priceRangeChange() {
+    emit('priceRangeChange', priceRange);
+}
+
+watch(priceRange, priceRangeChange);
 </script>
 
 <template>

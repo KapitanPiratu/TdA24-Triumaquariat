@@ -19,6 +19,7 @@ onMounted(() => {
 
 const locations = ref([]);
 const tags = ref([]);
+const priceRange = ref([]);
 
 async function filter() {
     let list = lecturers.value;
@@ -37,6 +38,9 @@ async function filter() {
         if (location.selected) list = list.filter(lecturer => lecturer.location == location.location);
     })
 
+    console.log(priceRange.value)
+    list = list.filter(lecturer => lecturer.price_per_hour >= priceRange.value[0] && lecturer.price_per_hour <= priceRange.value[1]);
+
     filteredLecturers.value = list;
     console.log(filteredLecturers.value);
 }
@@ -50,13 +54,18 @@ function locationChange(newLocations) {
     locations.value = newLocations.value;
     filter();
 }
+
+function priceRangeChange(newRange) {
+    priceRange.value = newRange.value;
+    filter()
+}
 </script>
 
 <template>
     <Welcome />
 
     <div class="layout">
-        <Filters @locationChange="locationChange" @tagsChange="tagsChange" />
+        <Filters @locationChange="locationChange" @tagsChange="tagsChange" @priceRangeChange="priceRangeChange" />
 
         <div id="cards-container" class="cards-container">
             <LecturerCard v-for="lecturer in filteredLecturers" :key="lecturer.uuid" :lecturer="lecturer" />
