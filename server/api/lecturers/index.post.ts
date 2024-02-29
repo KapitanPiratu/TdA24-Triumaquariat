@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
                         resolve({ code: 400, message: 'Bad request' });
                     } else {
                         bcrypt.hash(body['password'], 10, (err: any, hash: any) => {
-                            console.log(hash);
+                            body['password'] = hash;
 
                             db.run(`
                                 INSERT INTO lecturers(
