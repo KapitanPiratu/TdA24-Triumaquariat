@@ -13,7 +13,7 @@ const formDisabled = ref(false);
 async function login() {
     formDisabled.value = true;
 
-    const response = await $useHttp('/api/login', {
+    const response = await useHttp('/api/login', {
         method: 'post',
         body: {
             username: username.value,
