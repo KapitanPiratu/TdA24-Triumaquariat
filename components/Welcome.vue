@@ -1,7 +1,7 @@
 <script setup>
 
 function scrollDown() {
-    const cards = document.getElementById('cards-container');
+    const cards = document.getElementById('filters');
     cards.scrollIntoView({
         block: 'start',
         behavior: 'smooth'

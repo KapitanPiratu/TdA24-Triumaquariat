@@ -53,6 +53,9 @@ export default defineEventHandler((event) => {
             //get rid of {uuid: null, name: null} in tags
             if (row.tags[0].name == null && row.tags.length == 1) row.tags = [];
 
+            delete row.username;
+            delete row.password;
+
             resolve(row);
         })
     })

@@ -15,7 +15,7 @@ async function validateToken() {
 
     if (!token) return;
 
-    await $fetch('/api/validate', {
+    await useHttp('/api/validate', {
         method: 'post',
         body: {
             token: token
