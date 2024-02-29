@@ -111,8 +111,8 @@ watch(priceRange, priceRangeChange);
             <div class="location-container">
 
                 <div class="filter-item" v-if="locations.length > 3" v-for="location in locations.slice(0, 2)">
-                    <input @change="locationChange" v-model="location.selected" type="checkbox">
-                    <p>{{ location.location }}</p>
+                    <input :id="location.location" @change="locationChange" v-model="location.selected" type="checkbox">
+                    <label :for="location.location">{{ location.location }}</label>
                 </div>
 
                 <div class="filter-item" v-if="locations.length > 3">
@@ -120,8 +120,8 @@ watch(priceRange, priceRangeChange);
                 </div>
 
                 <div class="filter-item" v-else v-for="location in locations">
-                    <input @change="locationChange" v-model="location.selected" type="checkbox">
-                    <p>{{ location.location }}</p>
+                    <input :id="location.location" @change="locationChange" v-model="location.selected" type="checkbox">
+                    <label :for="location.location">{{ location.location }}</label>
                 </div>
 
             </div>
@@ -129,8 +129,8 @@ watch(priceRange, priceRangeChange);
             <div class="tags-container">
 
                 <div class="filter-item" v-if="tags.length > 9" v-for="tag in tags.slice(0, 8)">
-                    <input @change="tagsChange" v-model="tag.selected" type="checkbox">
-                    <p>{{ tag.name }}</p>
+                    <input :id="tag.uuid" @change="tagsChange" v-model="tag.selected" type="checkbox">
+                    <label :for="tag.uuid">{{ tag.name }}</label>
                 </div>
 
                 <div class="filter-item" v-if="tags.length > 9">
@@ -138,8 +138,8 @@ watch(priceRange, priceRangeChange);
                 </div>
 
                 <div class="filter-item" v-if="tags.length <= 9" v-for="tag in tags">
-                    <input @change="tagsChange" v-model="tag.selected" type="checkbox">
-                    <p>{{ tag.name }}</p>
+                    <input :id="tag.uuid" @change="tagsChange" v-model="tag.selected" type="checkbox">
+                    <label :for="tag.uuid">{{ tag.name }}</label>
                 </div>
             </div>
 
@@ -164,8 +164,8 @@ watch(priceRange, priceRangeChange);
         <v-card class="dialog-card">
             <div class="tags-container dialog-container">
                 <div class="filter-item dialog-item" v-for="tag in tags">
-                    <input @change="tagsChange" v-model="tag.selected" type="checkbox">
-                    <p>{{ tag.name }}</p>
+                    <input :id="tag.uuid" @change="tagsChange" v-model="tag.selected" type="checkbox">
+                    <label :for="tag.uuid">{{ tag.name }}</label>
                 </div>
             </div>
         </v-card>
@@ -175,8 +175,8 @@ watch(priceRange, priceRangeChange);
         <v-card class="dialog-card">
             <div class="tags-container dialog-container">
                 <div class="filter-item dialog-item" v-for="location in locations">
-                    <input @change="locationChange" v-model="location.selected" type="checkbox">
-                    <p>{{ location.location }}</p>
+                    <input :id="location.location" @change="locationChange" v-model="location.selected" type="checkbox">
+                    <label :for="location.location">{{ location.location }}</label>
                 </div>
             </div>
         </v-card>
