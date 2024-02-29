@@ -32,6 +32,7 @@ const DashboardSubcardData = [
 ]
 
 const validToken = ref(false);
+const uuid = ref('');
 
 async function validateToken() {
     const token = localStorage.getItem('token');
@@ -43,6 +44,7 @@ async function validateToken() {
         },
         onResponse(response) {
             validToken.value = response.response._data.valid;
+            validToken.value = response.response._data.uuid;
         }
     })
 }
@@ -53,137 +55,25 @@ onMounted(() => {
 </script>
 <template>
     <div class="dashboard-container">
-        <div v-if="validToken">
-            <div class="DB-main-title">Správa mých rezervací</div><!-- DB means dashboard -->
-            <div class="DB-biggest-area">
-                <div class="DB-BA-first-line"><!-- BA means biggest-area -->
-                    <div class="DB-BA-FL-date-from">Datum od: <input type="time"></div> <!-- FL means first-line -->
-                    <div class="DB-BA-FL-date-to">Datum do: <input type="time"></div>
-                    <button class="DB-BA-FL-delete-button">ODMÍTNOUT</button>
-                    <button class="DB-BA-FL-confirm-button">POTVRDIT</button>
-                </div>
-                <div class="DB-BA-second-line"><button class="choosing-record-button"></button>
-                    <div class="DB-BA-SL-date">Datum</div> <!-- SL means second-line -->
-                    <div class="DB-BA-SL-time">Čas</div>
-                    <div class="DB-BA-SL-place">Místo</div>
-                    <div class="DB-BA-SL-lection-topic">Druh lekce</div>
-                    <div class="DB-BA-SL-names">Jméno a Příjmení</div>
-                    <div class="DB-BA-SL-email">E-mail</div>
-                    <div class="DB-BA-SL-comment">Akce</div>
-                </div>
-                <div class="DB-BA-third-line">
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div> <!-- TL means third-line -->
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div>
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div>
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div>
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div>
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div>
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div>
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div>
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div>
-                    <div class="DB-BA-TL-record1"><button class="choosing-record-button"></button>
-                        <p class="DB-BA-TL-record-date">28.2.2024</p>
-                        <p class="DB-BA-TL-record-time">10:00-11:00</p>
-                        <p class="DB-BA-TL-record-place">Text3</p>
-                        <p class="DB-BA-TL-record-lection-topic">Text4</p>
-                        <p class="DB-BA-TL-record-names">Jméno a příjmení</p>
-                        <p class="DB-BA-TL-record-email">name@email.com</p>
-                        <p class="DB-BA-TL-record-comment"><a href="" class="blue-underline">Zobrazit detail</a></p>
-                    </div>
-                </div>
-                <div class="DB-BA-fourth-line">
-                    <div class="DB-RecordsOnPage-setting">Počet na stránku 10</div>
-                    <div class="DB-page-number-index"> 1-x z x</div>
-                    <button class="DB-records-return-button"> &lt </button>
-                    <button class="DB-records-next-button">></button>
-                </div>
-            </div>
-        </div>
+        <DashboardDialog :uuid="uuid" v-if="validToken" />
         <div v-else>
             <p>please <NuxtLink to="/login">log in</NuxtLink> first</p>
         </div>
     </div>
+
+    <Footer></Footer>
 </template>
 
 <style scoped>
 .dashboard-container {
-    position: absolute;
+    position: relative;
     top: 21.5vh;
     padding: 5vh;
-    margin-left: 8vw;
-    margin-top: 3vh;
+
+    width: 100vw;
+    height: 78.5vh;
+
+    margin-bottom: 21.5vh;
 }
 
 .DB-main-title {
