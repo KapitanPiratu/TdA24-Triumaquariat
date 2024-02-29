@@ -40,6 +40,9 @@ export default defineEventHandler((event) => {
                     if (el[key] == 'null') el[key] = null;
                     if (el[key] == 'undefined') el[key] = null;
                 })
+
+                delete el.username;
+                delete el.password;
             })
             resolve(rows);
         })
