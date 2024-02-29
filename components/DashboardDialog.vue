@@ -2,6 +2,21 @@
 
 const props = defineProps(['uuid']);
 
+const reservations = ref([]);
+
+async function getReservations() {
+    if (props.uuid) {
+        await useHttp(`/api/reservation/${props.uuid}`, {
+            method: 'get',
+            onResponse(response) {
+                reservations.value = response.response._data;
+            }
+        })
+    }
+}
+
+watch(() => props.uuid, getReservations())
+
 </script>
 
 <template>
@@ -10,7 +25,7 @@ const props = defineProps(['uuid']);
     </div>
 
     <div class="dashboard-card">
-
+        {{ reservations }}
     </div>
 </template>
 <style scoped>

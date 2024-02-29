@@ -44,7 +44,7 @@ async function validateToken() {
         },
         onResponse(response) {
             validToken.value = response.response._data.valid;
-            validToken.value = response.response._data.uuid;
+            uuid.value = response.response._data.uuid;
         }
     })
 }
