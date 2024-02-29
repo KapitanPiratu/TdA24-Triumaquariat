@@ -1,5 +1,7 @@
 <script setup>
 const showMenu = ref(false);
+const snackbar = ref(false);
+const snackbarMessage = ref('');
 
 function hideMenu() {
     validateToken()
@@ -28,6 +30,8 @@ function logout() {
     localStorage.removeItem('token');
     showMenu.value = false;
     validToken.value = false;
+    snackbarMessage.value = 'Odhlášení proběhlo úspěšně!';
+    snackbar.value = true;
 }
 
 onMounted(() => {
@@ -72,6 +76,9 @@ watch(logged_count, validateToken);
         </nuxt-link>
 
     </v-menu>
+
+    <v-snackbar class="snackbar" v-model="snackbar" location="top" :timeout="3000" color="#74c7d3">{{ snackbarMessage
+    }}</v-snackbar>
 </template>
 
 <style scoped>
@@ -158,5 +165,9 @@ img {
     width: 15vw;
 
     font-size: 1.4rem;
+}
+
+.snackbar {
+    z-index: 9999 !important;
 }
 </style>
