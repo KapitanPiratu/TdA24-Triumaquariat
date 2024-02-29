@@ -8,7 +8,11 @@ const status = ref('');
 
 const snackbarMessage = ref('Někde nastala chyba, máš zadané údaje?');
 
+const formDisabled = ref(false);
+
 async function login() {
+    formDisabled.value = true;
+
     const response = await $fetch('/api/login', {
         method: 'post',
         body: {
@@ -39,6 +43,8 @@ async function login() {
                     dialogSnackbar.value = true;
                 }
             }
+
+            formDisabled.value = false;
         }
     })
 }
@@ -49,16 +55,18 @@ const dialogSnackbar = ref(false);
 
 <template>
     <div class="login-container">
-        <h1>Přihlášení</h1>
-        <form>
+        <h1 :class="{ 'disabled': formDisabled }">Přihlášení</h1>
+        <v-form :disabled="formDisabled">
             <v-text-field class="inputuser" v-model="username" type="text" label="Přihlašovací jméno" bg-color="white">
             </v-text-field>
             <v-text-field class="inputpass" v-model="password" type="password" label="Heslo" bg-color="white">
             </v-text-field>
-            <p class="status">{{ status }}</p>
-            <v-btn class="button" @click="login">Přihlásit se</v-btn>
-            <p class="problemek" @click="dialogModel = !dialogModel">Problémy s přihlášením?</p>
-        </form>
+            <v-btn :class="{ 'disabled': formDisabled }" class="button" @click="login">Přihlásit se</v-btn>
+            <p :class="{ 'disabled': formDisabled }" class="problemek" @click="dialogModel = !dialogModel">Problémy s
+                přihlášením?</p>
+
+            <v-progress-circular class="spinner" v-if="formDisabled" indeterminate></v-progress-circular>
+        </v-form>
     </div>
 
     <v-dialog v-model="dialogModel">
@@ -121,5 +129,16 @@ const dialogSnackbar = ref(false);
 
 .snackbar {
     z-index: 9999 !important;
+}
+
+.spinner {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.disabled {
+    opacity: 70%;
 }
 </style>
