@@ -25,7 +25,27 @@ watch(() => props.uuid, getReservations())
     </div>
 
     <div class="dashboard-card">
-        {{ reservations }}
+
+        <div class="reservation headers-row">
+            <div class="reservation-column"> Datum</div>
+            <div class="reservation-column"> Čas </div>
+            <div class="reservation-column"> Místo</div>
+            <div class="reservation-column"> Štítky </div>
+            <div class="reservation-column"> Jméno </div>
+            <div class="reservation-column"> Email</div>
+            <div class="reservation-column"> Akce</div>
+        </div>
+
+        <div class="reservation" v-for="r in reservations" :key="r.uuid">
+            <div class="reservation-column"> {{ r.date }}</div>
+            <div class="reservation-column"> {{ r.time_from }} - {{ r.time_to }}</div>
+            <div class="reservation-column"> {{ r.place }}</div>
+            <div class="reservation-column"> Tag </div>
+            <div class="reservation-column"> {{ r.name }}</div>
+            <div class="reservation-column"> {{ r.email }}</div>
+            <div class="reservation-column"> Smazat</div>
+        </div>
+
     </div>
 </template>
 <style scoped>
@@ -36,20 +56,49 @@ watch(() => props.uuid, getReservations())
     transform: translate(-50%, -50%);
 
     height: 50vh;
-    width: 70vw;
-    box-shadow: 1px 1px 3px 0.2px var(--jet);
+    width: 75vw;
 
+    box-shadow: 1px 1px 3px 0.2px var(--jet);
     border-radius: 6.5px;
+
+    display: grid;
+    grid-template-rows: repeat(auto-fill, 8vh);
 }
 
 .dashboard-header {
     position: absolute;
-    top: 8vh;
+    top: 7vh;
     left: 50%;
     transform: translate(-50%, -50%);
 
-    font-size: 1.7rem;
+    font-size: 1.9rem;
 
-    width: 70vw;
+    width: 75vw;
+}
+
+.reservation {
+    margin-left: 2vw;
+    margin-right: 2vw;
+
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+
+    border-bottom: 2px solid rgb(51, 51, 51, .5);
+}
+
+.reservation:last-child {
+    border: none;
+}
+
+.reservation-column {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 8vh;
+}
+
+
+.headers-row * {
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 </style>
