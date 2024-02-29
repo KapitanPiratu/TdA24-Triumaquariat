@@ -18,8 +18,11 @@ async function login() {
         onResponse(response) {
             console.log(response.response.status)
 
-            if (response.response.status == 400 || response.response.status == 401 || response.response.status == 404) {
-                snackbarMessage.value = "Někde nastala chyba, máš zadané údaje?"
+            if (response.response.status == 400) {
+                snackbarMessage.value = 'Někde nastala chyba, máš zadané údaje?';
+                dialogSnackbar.value = true;
+            } else if (response.response.status == 401 || response.response.status == 404) {
+                snackbarMessage.value = "Špatné jméno nebo heslo!"
                 dialogSnackbar.value = true;
             } else {
 
@@ -32,7 +35,7 @@ async function login() {
                     snackbarMessage.value = 'Přihlášení bylo úspěšné!';
                     dialogSnackbar.value = true;
                 } else {
-                    snackbarMessage.value = 'Špatné jméno nebo heslo.';
+                    snackbarMessage.value = 'Něco se pokazilo ):';
                     dialogSnackbar.value = true;
                 }
             }
@@ -117,6 +120,6 @@ const dialogSnackbar = ref(false);
 }
 
 .snackbar {
-    z-index: 3005;
+    z-index: 9999 !important;
 }
 </style>
