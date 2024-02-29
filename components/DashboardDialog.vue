@@ -17,6 +17,17 @@ async function getReservations() {
 
 watch(() => props.uuid, getReservations())
 
+async function deleteReservation(uuid) {
+    const check = window.confirm('Tato akce nelze vzít zpět! Jste si jistí, že chcete zrušit rezervaci?');
+    if (check) await useHttp(`/api/reservation/${uuid}`, {
+        method: 'delete',
+        onResponse(response) {
+            if (response.response.status == 204) {
+                getReservations();
+            }
+        }
+    });
+}
 </script>
 
 <template>
@@ -40,10 +51,12 @@ watch(() => props.uuid, getReservations())
             <div class="reservation-column"> {{ r.date }}</div>
             <div class="reservation-column"> {{ r.time_from }} - {{ r.time_to }}</div>
             <div class="reservation-column"> {{ r.place }}</div>
-            <div class="reservation-column"> Tag </div>
+            <div class="reservation-column"> {{ r.tags[0].name }} </div>
             <div class="reservation-column"> {{ r.name }}</div>
             <div class="reservation-column"> {{ r.email }}</div>
-            <div class="reservation-column"> Smazat</div>
+            <div class="reservation-column">
+                <v-btn class="delete-btn" @click="deleteReservation(r.uuid)">Zrušit</v-btn>
+            </div>
         </div>
 
     </div>
@@ -63,6 +76,8 @@ watch(() => props.uuid, getReservations())
 
     display: grid;
     grid-template-rows: repeat(auto-fill, 8vh);
+
+    overflow-y: auto;
 }
 
 .dashboard-header {
@@ -100,5 +115,9 @@ watch(() => props.uuid, getReservations())
 .headers-row * {
     font-size: 1.2rem;
     font-weight: 700;
+}
+
+.delete-btn {
+    background-color: var(--sunglow);
 }
 </style>
