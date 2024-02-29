@@ -19,6 +19,7 @@
     height: 15vh;
     max-width: 100%;
     background-color: var(--jet);
+    z-index: 3001;
 }
 
 h1 {
@@ -43,5 +44,6 @@ img {
     width: 100vw;
     height: 6.5vh;
     box-shadow: 1px 1px 10px 1px black;
+    z-index: 3000;
 }
 </style>
