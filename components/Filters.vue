@@ -145,15 +145,21 @@ watch(priceRange, priceRangeChange);
 
         </div>
 
+        <div class="headers-container price-header">
+            <div>
+                <p>Cenové rozpětí</p>
+            </div>
+        </div>
+
         <div class="price-container">
-            <v-range-slider :min="min" :max="max" v-model="priceRange" :step="5">
+            <v-range-slider color="#fecb2e" :min="min" :max="max" v-model="priceRange" :step="5" class="price-range">
                 <template v-slot:prepend>
                     <v-text-field v-model="priceRange[0]" hide-details single-line type="number" variant="outlined"
-                        density="compact" style="width: 140px"></v-text-field>
+                        density="compact" style="width: 100px"></v-text-field>
                 </template>
                 <template v-slot:append>
                     <v-text-field v-model="priceRange[1]" hide-details single-line type="number" variant="outlined"
-                        style="width: 140px" density="compact"></v-text-field>
+                        style="width: 100px" density="compact"></v-text-field>
                 </template>
             </v-range-slider>
         </div>
@@ -190,22 +196,22 @@ watch(priceRange, priceRangeChange);
     left: 50%;
     transform: translateX(-50%);
 
-    width: 80vw;
-    height: 60vh;
+    width: 65vw;
+    height: 50vh;
 
     /* background-color: red; */
 }
 
 .filters-header {
     font-size: 1.7rem;
-    margin-top: 1vh;
+    margin-top: 3vh;
 }
 
 .filters-container {
     display: flex;
 
-    width: 80vw;
-    height: 24vh;
+    width: 65vw;
+    height: 20vh;
 }
 
 .location-container {
@@ -226,9 +232,9 @@ watch(priceRange, priceRangeChange);
 
 .headers-container {
     margin-top: 3vh;
-    margin-bottom: 2vh;
+    margin-bottom: 3vh;
 
-    width: 80vw;
+    width: 65vw;
     height: auto;
 
     display: flex;
@@ -247,7 +253,7 @@ watch(priceRange, priceRangeChange);
 
 .filter-item {
     width: auto;
-    height: 8vh;
+    height: 6vh;
 }
 
 .filter-item * {
@@ -286,5 +292,15 @@ watch(priceRange, priceRangeChange);
     margin: 2vh;
     margin-left: 2vw;
     margin-right: 2vw;
+}
+
+.price-range {
+    margin-left: 0 !important;
+    margin-top: 1vh;
+    width: 27vw;
+}
+
+.price-header {
+    margin-top: 0 !important;
 }
 </style>
