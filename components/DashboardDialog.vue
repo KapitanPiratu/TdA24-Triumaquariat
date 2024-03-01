@@ -7,16 +7,20 @@ const reservations = ref([]);
 function sortReservations() {
     let array = reservations.value;
 
-    function formatDate(dateString) {
+    function formatDate(dateString, timeString) {
         const dateComponents = dateString.split(". ");
         const day = parseInt(dateComponents[0], 10);
         const month = parseInt(dateComponents[1], 10) - 1; // Subtract 1 for zero-based month
         const year = parseInt(dateComponents[2], 10);
 
-        return new Date(year, month, day);
+        const timeComponents = timeString.split(":");
+        const hour = parseInt(timeComponents[0], 10);
+        const minute = parseInt(timeComponents[1], 10);
+
+        return new Date(year, month, day, hour, minute);
     }
 
-    array.sort((a, b) => formatDate(a.date) - formatDate(b.date));
+    array.sort((a, b) => formatDate(a.date, a.time_from) - formatDate(b.date, b.time_from));
 
     reservations.value = array;
 }
