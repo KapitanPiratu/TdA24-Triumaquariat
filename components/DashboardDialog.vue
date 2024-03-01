@@ -4,12 +4,30 @@ const props = defineProps(['uuid']);
 
 const reservations = ref([]);
 
+function sortReservations() {
+    let array = reservations.value;
+
+    function formatDate(dateString) {
+        const dateComponents = dateString.split(". ");
+        const day = parseInt(dateComponents[0], 10);
+        const month = parseInt(dateComponents[1], 10) - 1; // Subtract 1 for zero-based month
+        const year = parseInt(dateComponents[2], 10);
+
+        return new Date(year, month, day);
+    }
+
+    array.sort((a, b) => formatDate(a.date) - formatDate(b.date));
+
+    reservations.value = array;
+}
+
 async function getReservations() {
     if (props.uuid) {
         await useHttp(`/api/reservation/${props.uuid}`, {
             method: 'get',
             onResponse(response) {
                 reservations.value = response.response._data;
+                sortReservations()
             }
         })
     }
@@ -98,7 +116,7 @@ async function deleteReservation(uuid) {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
 
-    border-bottom: 2px solid rgb(51, 51, 51, .5);
+    border-bottom: 1.5px solid rgb(51, 51, 51, .5);
 }
 
 .reservation:last-child {
