@@ -274,24 +274,28 @@ watch(priceRange, priceRangeChange);
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: 39vw;
+    width: 25vw;
     height: 70vh;
 }
 
 .dialog-container {
-    flex-direction: row;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(auto-fill, 5vh);
+
     overflow-y: auto;
+    margin: 1vw;
+    margin-top: 3vh;
 }
 
 .dialog-item {
     width: 8vw;
-    min-height: 15vh;
-    max-height: 15vh;
+    min-height: 5vh;
+    max-height: 5vh;
 
     margin: 2vh;
-    margin-left: 2vw;
-    margin-right: 2vw;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
 }
 
 .price-range {
