@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import sqlite3 from 'sqlite3';
+const db = new sqlite3.Database('./server/db/records.db');
 
 export default defineEventHandler((event) => {
     const res = new Promise(async (resolve, reject) => {
@@ -16,7 +18,16 @@ export default defineEventHandler((event) => {
                             setResponseStatus(event, 400);
                             resolve({ message: err });
                         } else {
-                            resolve({ valid: true });
+                            db.get(`SELECT uuid FROM lecturers WHERE username="${decoded.username}"`, (err, row: any) => {
+                                if (err) {
+                                    console.log(err)
+                                    setResponseStatus(event, 500);
+                                    resolve({ message: err });
+                                } else {
+                                    resolve({ valid: true, uuid: row.uuid });
+                                }
+                            })
+
                         }
                     })
                 }
