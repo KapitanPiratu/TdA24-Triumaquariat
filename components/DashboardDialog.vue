@@ -52,6 +52,14 @@ async function deleteReservation(uuid) {
         }
     });
 }
+
+function getTags(tags) {
+    if (tags.length) {
+        return tags[0].name;
+    } else {
+        return ''
+    }
+}
 </script>
 
 <template>
@@ -75,7 +83,7 @@ async function deleteReservation(uuid) {
             <div class="reservation-column"> {{ r.date }}</div>
             <div class="reservation-column"> {{ r.time_from }} - {{ r.time_to }}</div>
             <div class="reservation-column"> {{ r.place }}</div>
-            <div class="reservation-column"> {{ r.tags[0].name }} </div>
+            <div class="reservation-column"> {{ getTags(r.tags) }} </div>
             <div class="reservation-column"> {{ r.name }}</div>
             <div class="reservation-column"> {{ r.email }}</div>
             <div class="reservation-column">
