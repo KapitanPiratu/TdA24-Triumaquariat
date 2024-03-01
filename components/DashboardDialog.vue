@@ -2,6 +2,7 @@
 
 const props = defineProps(['uuid']);
 
+const spinner = ref(true);
 const reservations = ref([]);
 
 function sortReservations() {
@@ -32,6 +33,7 @@ async function getReservations() {
             onResponse(response) {
                 reservations.value = response.response._data;
                 sortReservations()
+                spinner.value = false;
             }
         })
     }
@@ -81,6 +83,7 @@ async function deleteReservation(uuid) {
             </div>
         </div>
 
+        <v-progress-circular class="spinner" v-if="spinner" indeterminate></v-progress-circular>
     </div>
 </template>
 <style scoped>
@@ -141,5 +144,12 @@ async function deleteReservation(uuid) {
 
 .delete-btn {
     background-color: var(--sunglow);
+}
+
+.spinner {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>
