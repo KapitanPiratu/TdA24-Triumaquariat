@@ -2,8 +2,7 @@
 
 const props = defineProps(['color', 'display', 'lecturer']);
 
-onMounted(() => {
-})
+const lecturer = props.lecturer;
 </script>
 
 <template>
